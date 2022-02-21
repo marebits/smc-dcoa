@@ -28,7 +28,12 @@
 	"license": "SEE LICENSE IN https://donutsteel.pl",
 	"devDependencies": {
 		"@nomiclabs/hardhat-ethers": "^2.0.5",
+		"@nomiclabs/hardhat-etherscan": "^3.0.1",
 		"@openzeppelin/contracts": "^4.5.0",
+		"@types/chai": "^4.3.0",
+		"@types/mocha": "^9.1.0",
+		"@types/node": "^17.0.18",
+		"chai": "^4.3.6",
 		"ethers": "^5.5.4",
 		"hardhat": "^2.8.4",
 		"hardhat-deploy": "^0.10.5",
