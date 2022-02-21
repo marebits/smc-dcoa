@@ -1,0 +1,37 @@
+{
+	"name": "marecoin-dcoa",
+	"version": "1.0.0",
+	"description": "A Digital Certificate of Authenticity token for the Silver Mare Coin being minted by /mlp/ in 2022",
+	"main": "",
+	"scripts": {
+		"build": "bin/build",
+		"compile": "npx hardhat compile",
+		"console": "npx hardhat console --network localhost",
+		"deploy": "npx hardhat deploy --network localhost",
+		"deploy-ganache": "npx hardhat deploy --network ganache --reset",
+		"deploy-mumbai": "export NODE_OPTIONS=--openssl-legacy-provider && npx hardhat deploy --export abi/SilverMareCoinDCoA-mumbai.json --reset --network mumbai",
+		"deploy-polygon": "export NODE_OPTIONS=--openssl-legacy-provider && npx hardhat deploy --export abi/SilverMareCoinDCoA.json --network polygon",
+		"deploy-ropsten": "export NODE_OPTIONS=--openssl-legacy-provider && npx hardhat deploy --export abi/SilverMareCoinDCoA-ropsten.json --reset --network ropsten",
+		"etherscan-verify": "npx hardhat etherscan-verify --license None --force-license --sleep --network ropsten",
+		"github": "git commit -a && git push origin master",
+		"node": "npx hardhat node --no-deploy --network hardhat"
+	},
+	"keywords": [
+		"/mlp/",
+		"marecoin",
+		"coin",
+		"certificate of authenticity",
+		"nft",
+		"erc721"
+	],
+	"author": "Twifag",
+	"license": "SEE LICENSE IN https://donutsteel.pl",
+	"devDependencies": {
+		"@nomiclabs/hardhat-ethers": "^2.0.5",
+		"@openzeppelin/contracts": "^4.5.0",
+		"ethers": "^5.5.4",
+		"hardhat": "^2.8.4",
+		"hardhat-deploy": "^0.10.5",
+		"ts-node": "^10.5.0"
+	}
+}
