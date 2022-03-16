@@ -11,12 +11,9 @@ abstract contract ContextMixin {
 			bytes memory array = msg.data;
 			uint256 index = msg.data.length;
 
-			assembly {
-				sender := and(mload(add(array, index)), 0xffffffffffffffffffffffffffffffffffffffff)
-			}
+			assembly { sender := and(mload(add(array, index)), 0xffffffffffffffffffffffffffffffffffffffff) }
 		} else {
 			sender = payable(msg.sender);
 		}
-		return sender;
 	}
 }

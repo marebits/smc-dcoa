@@ -3,6 +3,7 @@ pragma solidity 0.8.12;
 
 import "./ContextMixin.sol";
 import "./KnowsBestPony.sol";
+import "./libraries/MetadataBuilder.sol";
 import "./Ownable.sol";
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
@@ -11,7 +12,7 @@ import "@openzeppelin/contracts/utils/cryptography/draft-EIP712.sol";
 import "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
 import "@openzeppelin/contracts/utils/cryptography/SignatureChecker.sol";
 import "@openzeppelin/contracts/utils/introspection/IERC165.sol";
-// import "@openzeppelin/contracts/utils/math/SafeCast.sol";
+import "@openzeppelin/contracts/utils/math/SafeCast.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
 
 //https://github.com/OpenZeppelin/openzeppelin-contracts/blob/1488d4f6782f76f74f3652e44da9b9e241146ccb/test/utils/cryptography/SignatureChecker.test.js
@@ -40,6 +41,8 @@ interface ISilverMareCoinDCoA {
 
 	function cap() external view returns (uint256);
 
+	function certificateSigningHash(uint16 number) external view returns (bytes32);
+
 	/**
 	 * @notice Verifies message and signature and then issues a token claim if everything is correct.
 	 * @param number of your certificate to claim
@@ -52,19 +55,17 @@ interface ISilverMareCoinDCoA {
 
 	function FLOOR() external pure returns (uint16);
 
-	function getCertificateSigningHash(uint16 number) external view returns (bytes32);
-
 	function isCertificateClaimed(uint16 number) external view returns (bool);
 
 	function SIGNER() external view returns (address);
 }
 
 /**
- * @title The implementation for the SilverMareCoinDCoA
+ * @title The implementation for the ISilverMareCoinDCoA
  * @author Twifag
  */
 contract SilverMareCoinDCoA is EIP712, ERC721Enumerable, ContextMixin, KnowsBestPony, ISilverMareCoinDCoA {
-	// using SafeCast for uint256;
+	using SafeCast for uint256;
 	using SignatureChecker for address;
 	using Strings for uint256;
 
@@ -98,19 +99,19 @@ contract SilverMareCoinDCoA is EIP712, ERC721Enumerable, ContextMixin, KnowsBest
 
 	function cap() external view returns (uint256) { return uint256(_CAP); }
 
+	function certificateSigningHash(uint16 number) public view returns (bytes32) { return _hashTypedDataV4(keccak256(abi.encode(_CERTIFICATE_TYPEHASH, number, _CAP))); }
+
 	function claimCertificate(uint16 number, bytes calldata signature) external {
 		if (number > _CAP || number < FLOOR) {
 			revert CertificateNumberOutOfRange(number, FLOOR, _CAP);
 		} else if (isCertificateClaimed(number)) {
 			revert CertificateAlreadyClaimed(number);
-		} else if (SIGNER.isValidSignatureNow(ECDSA.toEthSignedMessageHash(getCertificateSigningHash(number)), signature)) {
+		} else if (SIGNER.isValidSignatureNow(ECDSA.toEthSignedMessageHash(certificateSigningHash(number)), signature)) {
 			revert InvalidSignature(signature);
 		}
 		_safeMint(_msgSender(), uint256(number));
 		emit Claimed(_msgSender(), number);
 	}
-
-	function getCertificateSigningHash(uint16 number) public view returns (bytes32) { return _hashTypedDataV4(keccak256(abi.encode(_CERTIFICATE_TYPEHASH, number, _CAP))); }
 
 	function isCertificateClaimed(uint16 number) public view returns (bool) { return _exists(uint256(number)); }
 
@@ -126,7 +127,7 @@ contract SilverMareCoinDCoA is EIP712, ERC721Enumerable, ContextMixin, KnowsBest
 	}
 
 	/// @inheritdoc ERC721
-	function tokenURI(uint256 tokenId) public view override(ERC721) returns (string memory tokenUri) {
-
+	function tokenURI(uint256 tokenId) public view override(ERC721) returns (string memory) {
+		return MetadataBuilder.getTokenUri(MetadataBuilder.TokenMetadataParams({ number: tokenId.toUint16(), cap: _CAP }));
 	}
 }
