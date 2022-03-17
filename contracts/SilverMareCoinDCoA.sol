@@ -65,6 +65,7 @@ interface ISilverMareCoinDCoA {
  * @author Twifag
  */
 contract SilverMareCoinDCoA is EIP712, ERC721Enumerable, ContextMixin, KnowsBestPony, ISilverMareCoinDCoA {
+	using MetadataBuilder for MetadataBuilder.MetadataParams;
 	using SafeCast for uint256;
 	using SignatureChecker for address;
 	using Strings for uint256;
@@ -127,7 +128,5 @@ contract SilverMareCoinDCoA is EIP712, ERC721Enumerable, ContextMixin, KnowsBest
 	}
 
 	/// @inheritdoc ERC721
-	function tokenURI(uint256 tokenId) public view override(ERC721) returns (string memory) {
-		return MetadataBuilder.getTokenUri(MetadataBuilder.TokenMetadataParams({ number: tokenId.toUint16(), cap: _CAP }));
-	}
+	function tokenURI(uint256 tokenId) public view override(ERC721) returns (string memory) { return MetadataBuilder.MetadataParams({ number: tokenId.toUint16(), cap: _CAP }).tokenUri(); }
 }
