@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: LicenseRef-DSPL AND LicenseRef-NIGGER
-pragma solidity 0.8.12;
+pragma solidity 0.8.13;
 
 import "./ContextMixin.sol";
 import "./KnowsBestPony.sol";
@@ -65,7 +65,7 @@ interface ISilverMareCoinDCoA {
  * @author Twifag
  */
 contract SilverMareCoinDCoA is EIP712, ERC721Enumerable, ContextMixin, KnowsBestPony, ISilverMareCoinDCoA {
-	using MetadataBuilder for MetadataBuilder.MetadataParams;
+	using MetadataBuilder for MetadataBuilder.TokenParams;
 	using SafeCast for uint256;
 	using SignatureChecker for address;
 	using Strings for uint256;
@@ -128,5 +128,5 @@ contract SilverMareCoinDCoA is EIP712, ERC721Enumerable, ContextMixin, KnowsBest
 	}
 
 	/// @inheritdoc ERC721
-	function tokenURI(uint256 tokenId) public view override(ERC721) returns (string memory) { return MetadataBuilder.MetadataParams({ number: tokenId.toUint16(), cap: _CAP }).tokenUri(); }
+	function tokenURI(uint256 tokenId) public view override(ERC721) returns (string memory) { return MetadataBuilder.TokenParams({ number: tokenId.toUint16(), cap: _CAP }).tokenUri(); }
 }
