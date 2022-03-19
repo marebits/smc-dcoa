@@ -1,5 +1,6 @@
 artifacts/
 cache/
+dcoa.min.svg
 deployments/localhost/
 node_modules/
 secrets.json

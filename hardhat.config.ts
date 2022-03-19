@@ -66,10 +66,11 @@ const config: HardhatUserConfig = {
 					deduplicate: true, 
 					jumpdestRemover: true, 
 					peephole: true, 
-					yul: false
+					yul: true
 				}, 
 				runs: 200
-			}
+			}, 
+			viaIR: true
 		}, 
 		version: "0.8.13"
 	}

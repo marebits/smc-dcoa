@@ -16,7 +16,7 @@ library MetadataBuilder {
 	bytes16 internal constant MIME_TYPE = "application/json";
 	bytes4 internal constant YEAR_MINTED = "2022";
 	string internal constant PROJECT_DESCRIPTOR = string(abi.encodePacked(
-		"from the initial minting of ", COIN_NAME, " fine silver coins issued in ", YEAR_MINTED, " as part of the Silver Mare Coin project on /mlp/."
+		"from the initial minting of ", COIN_NAME, " fine silver coins minted in ", YEAR_MINTED, " as part of the Silver Mare Coin project on /mlp/."
 	));
 
 	using Base64Uri for string;

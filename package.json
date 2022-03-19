@@ -14,7 +14,8 @@
 		"deploy-ropsten": "export NODE_OPTIONS=--openssl-legacy-provider && npx hardhat deploy --export abi/SilverMareCoinDCoA-ropsten.json --reset --network ropsten",
 		"etherscan-verify": "npx hardhat etherscan-verify --license None --force-license --sleep --network ropsten",
 		"github": "git commit -a && git push origin master",
-		"node": "npx hardhat node --no-deploy --network hardhat"
+		"node": "npx hardhat node --no-deploy --network hardhat", 
+		"svg": "npx svgo -i dcoa.svg -o dcoa.min.svg -p 1 --multipass"
 	},
 	"keywords": [
 		"/mlp/",
@@ -37,6 +38,7 @@
 		"ethers": "^5.5.4",
 		"hardhat": "^2.8.4",
 		"hardhat-deploy": "^0.10.5",
+		"svgo": "^2.8.0",
 		"ts-node": "^10.5.0",
 		"web3": "^1.7.0"
 	}
