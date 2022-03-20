@@ -71,7 +71,7 @@ contract SilverMareCoinDCoA is EIP712, ERC721Enumerable, ContextMixin, KnowsBest
 	using Strings for uint256;
 
 	uint16 private immutable _CAP;
-	bytes32 private constant _CERTIFICATE_TYPEHASH = keccak256("Certificate(uint16 number, uint16 cap)");
+	bytes32 private constant _CERTIFICATE_TYPEHASH = keccak256("Certificate(uint16 number,uint16 cap)");
 	uint16 public constant FLOOR = 1;
 	address public immutable SIGNER;
 
@@ -90,7 +90,7 @@ contract SilverMareCoinDCoA is EIP712, ERC721Enumerable, ContextMixin, KnowsBest
 	 * @dev Enables gasless transactions on MATIC.  See https://github.com/ProjectOpenSea/meta-transactions/tree/main/contracts
 	 * @return sender of the message
 	 */
-	function _msgSender() internal override view returns (address sender) { return ContextMixin.msgSender(); }
+	// function _msgSender() internal override view returns (address sender) { return ContextMixin.msgSender(); }
 
 	/// @inheritdoc ERC721
 	function _safeMint(address to, uint256 tokenId) internal override {
