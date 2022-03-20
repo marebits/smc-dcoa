@@ -7,6 +7,16 @@ import "./SVGBuilder.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
 
 library MetadataBuilder {
+	using Base64Uri for string;
+	using MetadataAttribute for MetadataAttribute.NumericParams;
+	using MetadataAttribute for MetadataAttribute.StringParams;
+	using Strings for uint256;
+
+	struct TokenParams {
+		uint16 number;
+		uint16 cap;
+	}
+
 	string internal constant COIN_NAME = "*The Ride Never Ends*";
 	string internal constant CONTRACT_NAME = "Silver Mare Coin Digital Certificate of Authenticity";
 	string internal constant TITLE = string(abi.encodePacked(
@@ -19,16 +29,6 @@ library MetadataBuilder {
 	string internal constant PROJECT_DESCRIPTOR = string(abi.encodePacked(
 		"from the initial minting of ", COIN_NAME, " fine silver coins minted in ", YEAR_MINTED, " as part of the Silver Mare Coin project on /mlp/."
 	));
-
-	using Base64Uri for string;
-	using MetadataAttribute for MetadataAttribute.NumericParams;
-	using MetadataAttribute for MetadataAttribute.StringParams;
-	using Strings for uint256;
-
-	struct TokenParams {
-		uint16 number;
-		uint16 cap;
-	}
 
 	function _encodeBase64(string memory message) private pure returns (string memory) { return message.toBase64Uri(bytes16(MIME_TYPE)); }
 	function _contractDescription(uint16 cap) private pure returns (bytes memory) {
@@ -44,12 +44,6 @@ library MetadataBuilder {
 			MetadataAttribute.StringParams({ traitType: "Mass", value: "1 troy oz" }).toJsonObject(), 
 			MetadataAttribute.StringParams({ traitType: "Diameter", value: "39 mm" }).toJsonObject(), 
 			MetadataAttribute.StringParams({ traitType: "Thickness", value: "0.12 in" }).toJsonObject(), 
-			// '{"display_type":"number","trait_type":"Issue","value":', params.number, ',"max_value":', params.cap, '},'
-			// '{"trait_type":"Minted Year","value":"', YEAR_MINTED, '"},'
-			// '{"trait_type":"Composition","value":"99.9% Ag"},'
-			// '{"trait_type":"Mass","value":"1 troy oz"},'
-			// '{"trait_type":"Diameter","value":"39 mm"},'
-			// '{"trait_type":"Thickness","value":"0.12 in"}'
 		']');
 	}
 	function _tokenDescription(TokenParams memory params) private pure returns (bytes memory) {

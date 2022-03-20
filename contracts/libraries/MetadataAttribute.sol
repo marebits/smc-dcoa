@@ -3,6 +3,9 @@ pragma solidity 0.8.13;
 
 import "@openzeppelin/contracts/utils/Strings.sol";
 
+using MetadataAttribute for MetadataAttribute.NumericParams global;
+using MetadataAttribute for MetadataAttribute.StringParams global;
+
 library MetadataAttribute {
 	using Strings for uint256;
 
