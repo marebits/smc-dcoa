@@ -21,17 +21,17 @@ Here is the contract address of the official Silver Mare Coin Digital Certificat
 * Polygon: **[TBD](https://polygonscan.com/address/TBD#code "View on Polygonscan")**
 * Mumbai (test network): **[TBD](https://polygonscan.com/address/TBD#code "View on Polygonscan")**
 
-(If you need to claim your tokens and need a small amount of MATIC, please send your wallet address to <iwtcits@mare.biz> and I will send you some.)
+If you need to claim your tokens and need a small amount of MATIC, please send your wallet address to <iwtcits@mare.biz> and I will send you some. (**TBD** looking into a way to make these claims gasless.)
 
 ## How to claim your certificate(s)
-**TBD**
+**TBD** This may be a Web site (if I or another volunteer has time) or a guide on how to make the claim using Polygonscan.
 
 ---
 
 ## Complete documentation
 ### Functions
 <ul>
-<li>Custom functions <b>TBD</b>
+<li>Custom functions
 <dl>
 <dt><code>cap() returns (uint16)</code></dt>
 <dd>Returns the total possible number of certificates that can be claimed.</dd>
@@ -43,7 +43,7 @@ Here is the contract address of the official Silver Mare Coin Digital Certificat
 <dd>Verifies that the given <code>signature</code> matches the one generated for the given certificate <code>number</code> and was signed by the proper signer.  If this is all correct, it then issues the matching certificate and a <code>CertificateClaimed</code> event is emitted.</dd>
 
 <dt><code>contractURI() returns (string)</code></dt>
-<dd>Returns the Uniform Resource Indicator (URI) for this contract.  This is used by token metadata sites to display overall collection metadata related to all the DCoA tokens issued by this contract.</dd>
+<dd>Returns the Uniform Resource Indicator (URI) for this contract.  This is used by token metadata sites to display overall collection metadata related to all the certificates issued by this contract.</dd>
 
 <dt><code>floor() returns (uint16)</code></dt>
 <dd>Returns the smallest possible certificate number that can be claimed (should always be 1).</dd>
@@ -55,53 +55,53 @@ Here is the contract address of the official Silver Mare Coin Digital Certificat
 <li><a href="https://eips.ethereum.org/EIPS/eip-721">ERC-721</a> standard functions
 <dl>
 <dt><code>approve(address approved, uint256 tokenId)</code></dt>
-<dd>Sets an approved address that is allowed to transfer the DCoA specified by the <code>tokenId</code>.  Only use this if you need to transfer your DCoA to another address using an external smart contract.  Set to the zero address to clear this approval when you are done.</dd>
+<dd>Sets an approved address that is allowed to transfer the certificate specified by the <code>tokenId</code>.  Only use this if you need to transfer your certificate to another address using an external smart contract.  Set to the zero address to clear this approval when you are done.</dd>
 
 <dt><code>balanceOf(address owner) returns (uint256)</code></dt>
-<dd>Returns the number of DCoA tokens held by an owner address</dd>
+<dd>Returns the number of certificates held by an owner address</dd>
 
 <dt><code>getApproved(uint256 tokenId) returns (address)</code></dt>
-<dd>Gets the approved address for a single DCoA specified by the <code>tokenId</code>.  Will return the zero address if there is no approved address.</dd>
+<dd>Gets the approved address for a single certificate specified by the <code>tokenId</code>.  Will return the zero address if there is no approved address.</dd>
 
 <dt><code>isApprovedForAll(address owner, address operator) returns (bool)</code></dt>
-<dd>Returns true if the given operator is approved to transfer all of owner's DCoA tokens.  Otherwise, returns false.</dd>
+<dd>Returns true if the given operator is approved to transfer all of owner's certificates.  Otherwise, returns false.</dd>
 
 <dt><code>ownerOf(uint256 tokenId) returns (address)</code></dt>
-<dd>Returns the address of the owner of the DCoA specified by the <code>tokenId</code></dd>
+<dd>Returns the address of the owner of the certificate specified by the <code>tokenId</code></dd>
 
 <dt><code>safeTransferFrom(address from, address to, uint256 tokenId, bytes data)</code></dt>
 <dt><code>safeTransferFrom(address from, address to, uint256 tokenId)</code></dt>
-<dd>Transfers the ownership of the DCoA specified by <code>tokenId</code> from one address to another, along with optional data in no specified format.</dd>
+<dd>Transfers the ownership of the certificate specified by <code>tokenId</code> from one address to another, along with optional data in no specified format.</dd>
 
 <dt><code>setApprovalForAll(address operator, bool approved)</code></dt>
-<dd>Allows a third party operator to manage all of your Silver Mare Coin DCoA tokens.  This opeartor is added to a list of operators with such approval.  Be sure to call this function again with a <code>false</code> value for <code>approved</code> once your are done.  This should only be used when you need to transfer your DCoA to another address using an external smart contract.</dd>
+<dd>Allows a third party operator to manage all of your Silver Mare Coin certificates.  This opeartor is added to a list of operators with such approval.  Be sure to call this function again with a <code>false</code> value for <code>approved</code> once your are done.  This should only be used when you need to transfer your certificate to another address using an external smart contract.</dd>
 
 <dt><code>transferFrom(address from, address to, uint256 tokenId)</code></dt>
-<dd>Transfers the ownership of the DCoA specified by <code>tokenId</code> from one address to another, along with optional data in no specified format.  <b>Please note that if the recipient wallet is not able to receive ERC-721 tokens, the transfer may fail and the token may be lost.</b>  For this reason, it's <i>highly</i> recommended you use <code>safeTransferFrom()</code> instead.</dd>
+<dd>Transfers the ownership of the certificate specified by <code>tokenId</code> from one address to another, along with optional data in no specified format.  <b>Please note that if the recipient wallet is not able to receive ERC-721 tokens, the transfer may fail and the certificate may be lost.</b>  For this reason, it's <i>highly</i> recommended you use <code>safeTransferFrom()</code> instead.</dd>
 </dl>
 </li>
 <li><a href="https://eips.ethereum.org/EIPS/eip-721">ERC-721</a> metadata extension
 <dl>
 <dt><code>name() returns (string)</code></dt>
-<dd>Returns the name of this token; i.e., <q>Silver Mare Coin Digital Certificate of Authenticity</q>.</dd>
+<dd>Returns the name of this certificate; i.e., <q>Silver Mare Coin Digital Certificate of Authenticity</q>.</dd>
 
 <dt><code>symbol() returns (string)</code></dt>
-<dd>Returns the symbol of this token; i.e., <q>SMC DCoA</q> (<b>TBD</b>).</dd>
+<dd>Returns the symbol of this certificate; i.e., <q>SMC DCoA</q> (<b>TBD</b>).</dd>
 
 <dt><code>tokenURI(uint256 tokenId) returns (string)</code></dt>
-<dd>Returns the Uniform Resource Indicator (URI) for the DCoA specified by the <code>tokenId</code>.  This is planned to consist of a URI-encoded JSON document containing a further URI-encoded SVG image depicting the coin in addition to other metadata (<b>TBD</b>, could also be a JSON file hosted on an immutable service like IPFS).  This is used by external sites to display the image and metadata for this token.</dd>
+<dd>Returns a <a href="https://en.wikipedia.org/wiki/Base64">Base64</a>-encoded <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/Data_URIs"><code>data:</code> URI</a> representing the JSON document that defines the metadata for the certificate specified by <code>tokenId</code>.  This JSON document also contains a Base64-encoded <code>data:</code> URI representing an SVG image depicting the coin (<b>TBD</b>, could also be a JSON file hosted on an immutable service like <a href="https://ipfs.io/">IPFS</a>).  This is used by external sites to display the image and metadata for this certificate.</dd>
 </dl>
 </li>
 <li><a href="https://eips.ethereum.org/EIPS/eip-721">ERC-721</a> enumeration extension
 <dl>
 <dt><code>tokenOfOwnerByIndex(address owner, uint256 index) returns (uint256)</code></dt>
-<dd>Returns the token ID at the specified <code>index</code> of the given owner.  Allows for enumeration of all DCoAs held by an address.</dd>
+<dd>Returns the certificate number at the specified <code>index</code> of the given owner.  Allows for enumeration of all certificates held by an address.</dd>
 
 <dt><code>tokenByIndex(uint256 index) returns (uint256)</code></dt>
-<dd>Returns the token ID at the specified <code>index</code>.  Allows for enumeration of all DCoAs issued by this contract.</dd>
+<dd>Returns the certificate number at the specified <code>index</code>.  Allows for enumeration of all certificates issued by this contract.</dd>
 
 <dt><code>totalSupply() returns (uint256)</code></dt>
-<dd>Returns the total number of valid DCoAs issued by this contract.</dd>
+<dd>Returns the total number of valid certificates issued by this contract (this number may increase but will never be higher than the <code>cap</code>.</dd>
 </dl>
 </li>
 <li><a href="https://eips.ethereum.org/EIPS/eip-165">ERC-165</a> (required by ERC-721)
@@ -110,10 +110,10 @@ Here is the contract address of the official Silver Mare Coin Digital Certificat
 <dd>Returns true if this contract supports the interface specified by <code>interfaceId</code> (as defined in ERC-165).  Otherwise, returns false.</dd>
 </dl>
 </li>
-<li><a href="https://eips.ethereum.org/EIPS/eip-173">ERC-173</a> (<b>TBD</b>)
+<li><a href="https://eips.ethereum.org/EIPS/eip-173">ERC-173</a> (<b>TBD</b> conformance to this may or may not be required by this contract; if not, all related functions will be removed)
 <dl>
 <dt><code>owner() returns (address)</code></dt>
-<dd>Returns the address that owns the Silver Mare Coin DCoA contract.</dd>
+<dd>Returns the address that owns the Silver Mare Coin certificate contract.</dd>
 
 <dt><code>transferOwnership(address newOwner)</code></dt>
 <dd>Sets the owner of this contract to the address specified by <code>newOwner</code>.  Only callable by the address specified in <code>owner()</code></dd>
@@ -135,13 +135,13 @@ Here is the contract address of the official Silver Mare Coin Digital Certificat
 <li>ERC-721 standard events
 <dl>
 <dt><code>Approval(address indexed owner, address indexed approved, uint256 indexed tokenId)</code></dt>
-<dd>Emitted when an approved address for a DCoA is changed or reaffirmed.  The zero address indicates there is no approved address.  When a <code>Transfer</code> event is emitted, it also indicates that the approved address for that DCoA has reset to the zero address.</dd>
+<dd>Emitted when an approved address for a certificate is changed or reaffirmed.  The zero address indicates there is no approved address.  When a <code>Transfer</code> event is emitted, it also indicates that the approved address for that certificate has reset to the zero address.</dd>
 
 <dt><code>ApprovalForAll(address indexed owner, address indexed operator, bool approved)</code></dt>
 <dd>Emitted when an operator is enabled or disabled for an owner.</dd>
 
 <dt><code>Transfer(address indexed from, address indexed to, uint256 indexed tokenId)</code></dt>
-<dd>Emitted whenever the ownership of a DCoA changes by any mechanism, including creation and destruction.</dd>
+<dd>Emitted whenever the ownership of a certificate changes by any mechanism, including creation and destruction.</dd>
 </dl>
 </li>
 <li>ERC-173 standard events
@@ -170,5 +170,3 @@ Here is the contract address of the official Silver Mare Coin Digital Certificat
 </dl>
 </li>
 </ul>
-
-[TBD]: / "To Be Determined"
