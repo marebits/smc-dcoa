@@ -29,6 +29,8 @@ If you need to claim your tokens and need a small amount of MATIC, please send y
 ---
 
 ## Complete documentation
+*Please note below that the terms `tokenId`, certificate number, certificate ID, and serial number all refer to the same number.*
+
 ### Functions
 <ul>
 <li>Custom functions
