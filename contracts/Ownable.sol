@@ -13,7 +13,7 @@ import "@openzeppelin/contracts/utils/introspection/IERC165.sol";
 abstract contract Ownable is Context, ERC165, IOwnable {
 	address private _owner;
 
-	/// @dev Throws if called by any account other than the owner.
+	/// @dev Throws {CallerIsNotOwner} if called by any account other than the owner.
 	modifier onlyOwner() {
 		if (owner() != _msgSender()) {
 			revert CallerIsNotOwner(_msgSender(), owner());
