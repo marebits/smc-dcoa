@@ -26,8 +26,13 @@ Here is the contract address of the official Silver Mare Coin Digital Certificat
 ## How to claim your certificate(s)
 **TBD**
 
+---
+
 ## Complete documentation
 ### Functions
+`floor() returns (uint16)`
+: Returns the smallest possible certificate number that can be claimed (should always be 1).
+
 <ul>
 <li>Custom functions <b>TBD</b>
 <dl>
