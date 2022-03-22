@@ -171,4 +171,4 @@ Here is the contract address of the official Silver Mare Coin Digital Certificat
 </li>
 </ul>
 
-*[TBD]: / To Be Determined
+[TBD]: / "To Be Determined"
