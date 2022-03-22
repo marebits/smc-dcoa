@@ -30,8 +30,8 @@ Here is the contract address of the official Silver Mare Coin Digital Certificat
 
 ## Complete documentation
 ### Functions
-`floor() returns (uint16)`
-: Returns the smallest possible certificate number that can be claimed (should always be 1).
+*     floor() returns (uint16)
+  Returns the smallest possible certificate number that can be claimed (should always be 1).
 
 <ul>
 <li>Custom functions <b>TBD</b>
