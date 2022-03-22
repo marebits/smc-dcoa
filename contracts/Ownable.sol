@@ -13,9 +13,6 @@ import "@openzeppelin/contracts/utils/introspection/IERC165.sol";
 abstract contract Ownable is Context, ERC165, IOwnable {
 	address private _owner;
 
-	/// @dev Initializes the contract setting the deployer as the initial owner.
-	constructor() { _transferOwnership(_msgSender()); }
-
 	/// @dev Throws if called by any account other than the owner.
 	modifier onlyOwner() {
 		if (owner() != _msgSender()) {
@@ -24,12 +21,11 @@ abstract contract Ownable is Context, ERC165, IOwnable {
 		_;
 	}
 
-	/// @dev Transfers ownership of the contract to a new account (`newOwner`)
-	function _transferOwnership(address newOwner) internal virtual {
-		address oldOwner = owner();
-		_owner = newOwner;
-		emit OwnershipTransferred(oldOwner, owner());
-	}
+	/// @dev Initializes the contract setting the deployer as the initial owner.
+	constructor() { _transferOwnership(_msgSender()); }
+
+	/// @inheritdoc IOwnable
+	function transferOwnership(address newOwner) public virtual onlyOwner { _transferOwnership(newOwner); }
 
 	/// @inheritdoc IOwnable
 	function owner() public view returns (address) { return _owner; }
@@ -43,6 +39,10 @@ abstract contract Ownable is Context, ERC165, IOwnable {
 			super.supportsInterface(interfaceId);
 	}
 
-	/// @inheritdoc IOwnable
-	function transferOwnership(address newOwner) public virtual onlyOwner { _transferOwnership(newOwner); }
+	/// @dev Transfers ownership of the contract to a new account (`newOwner`)
+	function _transferOwnership(address newOwner) internal virtual {
+		address oldOwner = owner();
+		_owner = newOwner;
+		emit OwnershipTransferred(oldOwner, owner());
+	}
 }
