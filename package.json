@@ -14,7 +14,7 @@
 		"deploy-ropsten": "export NODE_OPTIONS=--openssl-legacy-provider && npx hardhat deploy --export abi/SilverMareCoinDCoA-ropsten.json --reset --network ropsten",
 		"etherscan-verify": "npx hardhat etherscan-verify --license None --force-license --sleep --network ropsten",
 		"github": "git commit -a && git push origin master",
-		"node": "npx hardhat node --no-deploy --network hardhat", 
+		"node": "npx hardhat node --no-deploy --network hardhat",
 		"svg": "npx svgo -i dcoa.svg -o dcoa.min.svg -p 1 --multipass"
 	},
 	"keywords": [
@@ -30,6 +30,7 @@
 	"devDependencies": {
 		"@nomiclabs/hardhat-ethers": "^2.0.5",
 		"@nomiclabs/hardhat-etherscan": "^3.0.1",
+		"@opengsn/contracts": "^2.2.6",
 		"@openzeppelin/contracts": "^4.5.0",
 		"@types/chai": "^4.3.0",
 		"@types/mocha": "^9.1.0",

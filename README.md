@@ -52,6 +52,12 @@ If you need to claim your tokens and need a small amount of MATIC, please send y
 
 <dt><code>isCertificateClaimed(uint16 number) returns (bool)</code></dt>
 <dd>Returns true if the certificate with the given <code>number</code> has already been claimed; otherwise, returns false.</dd>
+
+<dt><code>SIGNER() returns (address)</code></dt>
+<dd>Returns the address of the proper signer.</dd>
+
+<dt><code>versionRecipient() returns (string memory)</code></dt>
+<dd>Returns the compatible <a href="https://opengsn.org/">OpenGSN</a> recipient version.</dd>
 </dl>
 </li>
 <li><a href="https://eips.ethereum.org/EIPS/eip-721">ERC-721</a> standard functions

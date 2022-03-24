@@ -1,14 +1,15 @@
 // SPDX-License-Identifier: LicenseRef-DSPL AND LicenseRef-NIGGER
 pragma solidity 0.8.13;
 
-import "./ContextMixin.sol";
 import "./KnowsBestPony.sol";
 import "./interfaces/ISilverMareCoinDCoA.sol";
 import "./libraries/MetadataBuilder.sol";
 import "./Ownable.sol";
+import "@opengsn/contracts/src/BaseRelayRecipient.sol";
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/IERC721Metadata.sol";
+import "@openzeppelin/contracts/utils/Context.sol";
 import "@openzeppelin/contracts/utils/cryptography/draft-EIP712.sol";
 import "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
 import "@openzeppelin/contracts/utils/cryptography/SignatureChecker.sol";
@@ -23,7 +24,7 @@ import "@openzeppelin/contracts/utils/Strings.sol";
  * @title The implementation for the {ISilverMareCoinDCoA} interface
  * @author Twifag
  */
-contract SilverMareCoinDCoA is EIP712, Ownable, ERC721Enumerable, ContextMixin, KnowsBestPony, ISilverMareCoinDCoA {
+contract SilverMareCoinDCoA is EIP712, Ownable, BaseRelayRecipient, ERC721Enumerable, KnowsBestPony, ISilverMareCoinDCoA {
 	using ECDSA for bytes32;
 	using MetadataBuilder for MetadataBuilder.TokenParams;
 	using SafeCast for uint256;
@@ -41,6 +42,9 @@ contract SilverMareCoinDCoA is EIP712, Ownable, ERC721Enumerable, ContextMixin, 
 
 	/// @dev The address that will be used to sign the {certificateSigningHash}es; immutable and set at deploy time
 	address public immutable SIGNER;
+
+	/// @inheritdoc IRelayRecipient
+	string public constant override versionRecipient = "2.2.6";
 
 	/**
 	 * @param name_ of this token
@@ -101,9 +105,9 @@ contract SilverMareCoinDCoA is EIP712, Ownable, ERC721Enumerable, ContextMixin, 
 		emit PermanentURI(tokenURI(tokenId), tokenId);
 	}
 
-	/**
-	 * @dev Enables gasless transactions on MATIC.  See https://github.com/ProjectOpenSea/meta-transactions/tree/main/contracts
-	 * @return sender of the message
-	 */
-	// function _msgSender() internal override view returns (address sender) { return ContextMixin.msgSender(); }
+	/// @inheritdoc BaseRelayRecipient
+	function _msgData() internal view override(BaseRelayRecipient, Context) returns (bytes memory) { return BaseRelayRecipient._msgData(); }
+
+	/// @inheritdoc BaseRelayRecipient
+	function _msgSender() internal view override(BaseRelayRecipient, Context) returns (address sender) { sender = BaseRelayRecipient._msgSender(); }
 }
