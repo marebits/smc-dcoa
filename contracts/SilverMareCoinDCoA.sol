@@ -5,7 +5,7 @@ import "./KnowsBestPony.sol";
 import "./interfaces/ISilverMareCoinDCoA.sol";
 import "./libraries/MetadataBuilder.sol";
 import "./Ownable.sol";
-import "@opengsn/contracts/src/BaseRelayRecipient.sol";
+import "@openzeppelin/contracts/metatx/ERC2771Context.sol";
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/IERC721Metadata.sol";
@@ -24,7 +24,7 @@ import "@openzeppelin/contracts/utils/Strings.sol";
  * @title The implementation for the {ISilverMareCoinDCoA} interface
  * @author Twifag
  */
-contract SilverMareCoinDCoA is EIP712, Ownable, BaseRelayRecipient, ERC721Enumerable, KnowsBestPony, ISilverMareCoinDCoA {
+contract SilverMareCoinDCoA is EIP712, ERC2771Context, Ownable, ERC721Enumerable, KnowsBestPony, ISilverMareCoinDCoA {
 	using ECDSA for bytes32;
 	using MetadataBuilder for MetadataBuilder.TokenParams;
 	using SafeCast for uint256;
@@ -43,8 +43,8 @@ contract SilverMareCoinDCoA is EIP712, Ownable, BaseRelayRecipient, ERC721Enumer
 	/// @dev The address that will be used to sign the {certificateSigningHash}es; immutable and set at deploy time
 	address public immutable SIGNER;
 
-	/// @inheritdoc IRelayRecipient
-	string public constant override versionRecipient = "2.2.6";
+	/// @dev needed for OpenGSN compatibility
+	string public constant versionRecipient = "2.2.6";
 
 	/**
 	 * @param name_ of this token
@@ -52,7 +52,7 @@ contract SilverMareCoinDCoA is EIP712, Ownable, BaseRelayRecipient, ERC721Enumer
 	 * @param cap_ maximum number of tokens allowed to be minted by this contract
 	 * @param signer_ address that signs the claim hashes
 	 */
-	constructor(string memory name_, string memory symbol_, uint16 cap_, address signer_) ERC721(name_, symbol_) EIP712(name_, "1") {
+	constructor(string memory name_, string memory symbol_, uint16 cap_, address signer_, address trustedForwarder) ERC721(name_, symbol_) ERC2771Context(trustedForwarder) EIP712(name_, "1") {
 		_CAP = cap_;
 		SIGNER = signer_;
 	}
@@ -105,9 +105,9 @@ contract SilverMareCoinDCoA is EIP712, Ownable, BaseRelayRecipient, ERC721Enumer
 		emit PermanentURI(tokenURI(tokenId), tokenId);
 	}
 
-	/// @inheritdoc BaseRelayRecipient
-	function _msgData() internal view override(BaseRelayRecipient, Context) returns (bytes memory) { return BaseRelayRecipient._msgData(); }
+	/// @inheritdoc ERC2771Context
+	function _msgData() internal view override(Context, ERC2771Context) returns (bytes memory) { return ERC2771Context._msgData(); }
 
-	/// @inheritdoc BaseRelayRecipient
-	function _msgSender() internal view override(BaseRelayRecipient, Context) returns (address sender) { sender = BaseRelayRecipient._msgSender(); }
+	/// @inheritdoc ERC2771Context
+	function _msgSender() internal view override(Context, ERC2771Context) returns (address sender) { sender = ERC2771Context._msgSender(); }
 }

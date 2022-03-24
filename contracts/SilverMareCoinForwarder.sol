@@ -2,10 +2,10 @@
 pragma solidity 0.8.13;
 
 import "./KnowsBestPony.sol";
-import "@opengsn/contracts/src/forwarder/Forwarder.sol";
+import "@openzeppelin/contracts/metatx/MinimalForwarder.sol";
 
 /**
- * @title The implementation for the {Forwarder} interface
+ * @title The implementation for the {MinimalForwarder} interface
  * @author Twifag
  */
-contract SilverMareCoinForwarder is Forwarder, KnowsBestPony {}
+contract SilverMareCoinForwarder is MinimalForwarder, KnowsBestPony {}
