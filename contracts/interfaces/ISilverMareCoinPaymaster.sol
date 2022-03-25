@@ -1,11 +1,13 @@
 // SPDX-License-Identifier: LicenseRef-DSPL AND LicenseRef-NIGGER
 pragma solidity 0.8.13;
 
+import "@opengsn/contracts/src/interfaces/IPaymaster.sol";
+
 /**
  * @title Defines the Silver Mare Coin Paymaster {SilverMareCoinPaymaster} interface
  * @author Twifag
  */
-interface ISilverMareCoinPaymaster {
+interface ISilverMareCoinPaymaster is IPaymaster {
 	/**
 	 * @notice Thrown when the caller `caller` is not the `relayHub`; used for access restriction in the {SilverMareCoinPaymaster.relayHubOnly} modifier.
 	 * @param caller that called the function

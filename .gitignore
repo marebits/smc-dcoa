@@ -1,4 +1,5 @@
 artifacts/
+build/*
 cache/
 dcoa.min.svg
 deployments/localhost/

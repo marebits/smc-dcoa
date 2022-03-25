@@ -17,7 +17,7 @@ import "@openzeppelin/contracts/utils/Address.sol";
  * @notice Slightly modified and extended from @opengsn/contracts/src/BasePaymaster.sol to allow setting {trustedForwarder} in constructor
  * @author Twifag
  */
-contract SilverMareCoinPaymaster is IPaymaster, Ownable, KnowsBestPony, ISilverMareCoinPaymaster {
+contract SilverMareCoinPaymaster is Ownable, KnowsBestPony, ISilverMareCoinPaymaster {
 	using Address for address;
 	using GsnUtils for bytes;
 
@@ -61,7 +61,13 @@ contract SilverMareCoinPaymaster is IPaymaster, Ownable, KnowsBestPony, ISilverM
 	function postRelayedCall(bytes calldata context, bool success, uint256 gasUseWithoutPost, GsnTypes.RelayData calldata relayData) external view override relayHubOnly {}
 
 	/// @inheritdoc IPaymaster
-	function preRelayedCall(GsnTypes.RelayRequest calldata relayRequest, bytes calldata signature, bytes calldata approvalData, uint256 maxPossibleGas) external view override relayHubOnly returns (bytes memory context, bool revertOnRecipientRevert) {
+	function preRelayedCall(GsnTypes.RelayRequest calldata relayRequest, bytes calldata signature, bytes calldata approvalData, uint256 maxPossibleGas)
+		external
+		view
+		override
+		relayHubOnly
+		returns (bytes memory context, bool revertOnRecipientRevert)
+	{
 		(signature, approvalData, maxPossibleGas);
 		_verifyForwarder(relayRequest);
 

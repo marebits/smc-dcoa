@@ -5,7 +5,7 @@
 	"main": "",
 	"scripts": {
 		"build": "bin/build",
-		"compile": "npx hardhat compile",
+		"compile": "npx truffle compile",
 		"console": "npx hardhat console --network localhost",
 		"deploy": "npx hardhat deploy --network localhost",
 		"deploy-ganache": "npx hardhat deploy --network ganache --reset",
@@ -40,6 +40,7 @@
 		"hardhat": "^2.8.4",
 		"hardhat-deploy": "^0.10.5",
 		"svgo": "^2.8.0",
+		"truffle": "^5.5.6",
 		"ts-node": "^10.5.0",
 		"web3": "^1.7.0"
 	}
