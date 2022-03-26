@@ -42,6 +42,18 @@ library MetadataBuilder {
 
 	/**
 	 * @param cap maximum number of coins to be issued
+	 * @return The Base64-encoded data: URI containing the contract's metadata
+	 */
+	function contractUri(uint16 cap) public pure returns (string memory) { return _encodeBase64(contractMetadata(cap)); }
+
+	/**
+	 * @param params describing the token
+	 * @return The Base64-encoded data: URI containing the token's metadata
+	 */
+	function tokenUri(TokenParams memory params) public pure returns (string memory) { return _encodeBase64(tokenMetadata(params)); }
+
+	/**
+	 * @param cap maximum number of coins to be issued
 	 * @return The JSON metadata for the contract
 	 */
 	function contractMetadata(uint16 cap) internal pure returns (string memory) {
@@ -58,12 +70,6 @@ library MetadataBuilder {
 	}
 
 	/**
-	 * @param cap maximum number of coins to be issued
-	 * @return The Base64-encoded data: URI containing the contract's metadata
-	 */
-	function contractUri(uint16 cap) internal pure returns (string memory) { return _encodeBase64(contractMetadata(cap)); }
-
-	/**
 	 * @param params describing the token
 	 * @return The JSON metadata for the token
 	 */
@@ -78,12 +84,6 @@ library MetadataBuilder {
 			'}'
 		));
 	}
-
-	/**
-	 * @param params describing the token
-	 * @return The Base64-encoded data: URI containing the token's metadata
-	 */
-	function tokenUri(TokenParams memory params) internal pure returns (string memory) { return _encodeBase64(tokenMetadata(params)); }
 
 	/**
 	 * @param message to encode
