@@ -16,7 +16,7 @@ library Base64Uri {
 	 * @param mimeType of the message being encoded
 	 * @return A Base64-encoded data: URI
 	 */
-	function toBase64Uri(string memory message, bytes16 mimeType) internal pure returns (string memory) {
+	function toBase64Uri(string memory message, string memory mimeType) internal pure returns (string memory) {
 		return string(abi.encodePacked("data:", mimeType, ";base64,", bytes(message).encode()));
 	}
 }

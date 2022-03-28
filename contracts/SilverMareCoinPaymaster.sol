@@ -76,7 +76,7 @@ contract SilverMareCoinPaymaster is Ownable, KnowsBestPony, ISilverMareCoinPayma
 		} 
 		bytes4 methodSignature = relayRequest.request.data.getMethodSig();
 
-		if (methodSignature != ISilverMareCoinDCoA.claimCertificate.selector) {
+		if (methodSignature != ISilverMareCoinDCoA.claimCertificate.selector && methodSignature != ISilverMareCoinDCoA.claimCertificates.selector) {
 			revert InvalidFunction(methodSignature);
 		}
 		return ("", false);

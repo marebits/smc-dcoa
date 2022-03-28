@@ -18,8 +18,8 @@ library MetadataAttribute {
 	 * @param maxValue equivalent to `max_value`; the maximum possible value for the trait type `traitType` (optional)
 	 */
 	struct NumericParams {
-		bytes16 displayType;
-		bytes16 traitType;
+		string displayType;
+		string traitType;
 		uint128 value;
 		uint128 maxValue;
 	}
@@ -30,8 +30,8 @@ library MetadataAttribute {
 	 * @param value equivalent to `value`; the string value of the trait (required)
 	 */
 	struct StringParams {
-		bytes16 traitType;
-		bytes16 value;
+		string traitType;
+		string value;
 	}
 
 	/**
@@ -61,7 +61,7 @@ library MetadataAttribute {
 	 * @param displayType passed in the {NumericParams}
 	 * @return JSON describing the displayType, if provided; otherwise, an empty string
 	 */
-	function _displayType(bytes16 displayType) private pure returns (bytes memory) { return (displayType == "") ? bytes("") : abi.encodePacked('"display_type":"', displayType, '",'); }
+	function _displayType(string memory displayType) private pure returns (bytes memory) { return (bytes(displayType).length == 0) ? bytes("") : abi.encodePacked('"display_type":"', displayType, '",'); }
 
 	/**
 	 * @param maxValue passed in the {NumericParams}
@@ -73,12 +73,12 @@ library MetadataAttribute {
 	 * @param traitType passed in the {NumericParams} or {StringParams}
 	 * @return JSON describing the traitType
 	 */
-	function _traitType(bytes16 traitType) private pure returns (bytes memory) { return abi.encodePacked('"trait_type":"', traitType, '",'); }
+	function _traitType(string memory traitType) private pure returns (bytes memory) { return abi.encodePacked('"trait_type":"', traitType, '",'); }
 
 	/**
 	 * @param value passed in the {NumericParams} or {StringParams}
 	 * @return JSON describing the value
 	 */
-	function _value(bytes16 value) private pure returns (bytes memory) { return abi.encodePacked('"value":"', value, '"'); }
+	function _value(string memory value) private pure returns (bytes memory) { return abi.encodePacked('"value":"', value, '"'); }
 	function _value(uint128 value) private pure returns (bytes memory) { return abi.encodePacked('"value":', uint256(value).toString()); }
 }

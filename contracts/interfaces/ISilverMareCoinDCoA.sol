@@ -7,6 +7,16 @@ pragma solidity 0.8.13;
  */
 interface ISilverMareCoinDCoA {
 	/**
+	 * @dev Data object describing the claim details
+	 * @param number of the certificate to claim
+	 * @param signature provided to claim the certificate
+	 */
+	struct ClaimDetails {
+		uint16 number;
+		bytes signature;
+	}
+
+	/**
 	 * @notice Emitted when the address `by` claims the token with the given `id`.
 	 * @param by whom the token is claimed
 	 * @param id of the token claimed
@@ -50,6 +60,13 @@ interface ISilverMareCoinDCoA {
 	 */
 	function claimCertificate(uint16 number, bytes calldata signature) external;
 
+	/**
+	 * @notice Attempts to claim all certificates based on details `claims`, given using the {ClaimDetails} struct.
+	 * @dev Calls the {claimCertificate} function for each claim, emitting a {CertificateClaimed} event when successful
+	 * @param claims the {ClaimDetails} of the claims being made
+	 */
+	function claimCertificates(ClaimDetails[] calldata claims) external;
+
 	/// @return the maximum allowable certificate number `number`
 	function cap() external view returns (uint16);
 
@@ -71,6 +88,13 @@ interface ISilverMareCoinDCoA {
 	 * @return true if the given certificate number `number` has already been claimed; otherwise, returns false
 	 */
 	function isCertificateClaimed(uint16 number) external view returns (bool);
+
+	/**
+	 * @notice Returns true if the signature `signature` matches the the {certificateSigningHash} for certificate number `number` as signed by {SIGNER}; otherwise, returns false
+	 * @param number of the certificate to claim
+	 * @param signature provided to claim the certificate
+	 */
+	function isValidSignature(uint16 number, bytes calldata signature) external view returns (bool);
 
 	/// @return the authorized `SIGNER` 
 	function SIGNER() external view returns (address);

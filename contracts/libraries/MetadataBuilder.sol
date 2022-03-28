@@ -15,17 +15,6 @@ library MetadataBuilder {
 	using MetadataAttribute for MetadataAttribute.NumericParams;
 	using MetadataAttribute for MetadataAttribute.StringParams;
 	using Strings for uint256;
-	using SVGBuilder for TokenParams;
-
-	/**
-	 * @dev Represents the parameters used when obtaining token metadata.
-	 * @param number of the token
-	 * @param cap maximum number of tokens
-	 */
-	struct TokenParams {
-		uint16 number;
-		uint16 cap;
-	}
 
 	string internal constant COIN_NAME = "*The Ride Never Ends*";
 	string internal constant CONTRACT_NAME = "Silver Mare Coin Digital Certificate of Authenticity";
@@ -34,23 +23,25 @@ library MetadataBuilder {
 		"## ", YEAR_MINTED, " ", COIN_NAME, "\\n\\n"
 		"## One Ounce Fine Silver\\n\\n"
 	));
-	bytes16 internal constant MIME_TYPE = "application/json";
-	bytes4 internal constant YEAR_MINTED = "2022";
+	string internal constant MIME_TYPE = "application/json";
+	string internal constant YEAR_MINTED = "2022";
 	string internal constant PROJECT_DESCRIPTOR = string(abi.encodePacked(
 		"from the initial minting of ", COIN_NAME, " fine silver coins minted in ", YEAR_MINTED, " as part of the Silver Mare Coin project on /mlp/."
 	));
 
 	/**
+	 * @dev see https://docs.opensea.io/docs/contract-level-metadata
 	 * @param cap maximum number of coins to be issued
 	 * @return The Base64-encoded data: URI containing the contract's metadata
 	 */
 	function contractUri(uint16 cap) public pure returns (string memory) { return _encodeBase64(contractMetadata(cap)); }
 
 	/**
-	 * @param params describing the token
+	 * @param number of the token
+	 * @param cap maximum number of tokens
 	 * @return The Base64-encoded data: URI containing the token's metadata
 	 */
-	function tokenUri(TokenParams memory params) public pure returns (string memory) { return _encodeBase64(tokenMetadata(params)); }
+	function tokenUri(uint16 number, uint16 cap) public pure returns (string memory) { return _encodeBase64(tokenMetadata(number, cap)); }
 
 	/**
 	 * @param cap maximum number of coins to be issued
@@ -70,17 +61,18 @@ library MetadataBuilder {
 	}
 
 	/**
-	 * @param params describing the token
+	 * @param number of the token
+	 * @param cap maximum number of tokens
 	 * @return The JSON metadata for the token
 	 */
-	function tokenMetadata(TokenParams memory params) internal pure returns (string memory) {
+	function tokenMetadata(uint16 number, uint16 cap) internal pure returns (string memory) {
 		return string(abi.encodePacked(
 			'{'
-				'"name":"', CONTRACT_NAME, ' #', uint256(params.number).toString(), '",'
-				'"description":"', _tokenDescription(params), '",'
-				'"image":"', params.tokenSvgUri(), '",'
+				'"name":"', CONTRACT_NAME, ' #', uint256(number).toString(), '/', uint256(cap).toString(), '",'
+				'"description":"', _tokenDescription(number, cap), '",'
+				'"image":"', SVGBuilder.tokenSvgUri(number, cap), '",'
 				'"background_color":"cc9cdf",'
-				'"attributes": ', _tokenAttributes(params), 
+				'"attributes": ', _tokenAttributes(number, cap), 
 			'}'
 		));
 	}
@@ -89,7 +81,7 @@ library MetadataBuilder {
 	 * @param message to encode
 	 * @return A Base64-encoded data: URI for the message `message`
 	 */
-	function _encodeBase64(string memory message) private pure returns (string memory) { return message.toBase64Uri(bytes16(MIME_TYPE)); }
+	function _encodeBase64(string memory message) private pure returns (string memory) { return message.toBase64Uri(MIME_TYPE); }
 
 	/**
 	 * @param cap maximum number of coins to be issued
@@ -97,17 +89,19 @@ library MetadataBuilder {
 	 */
 	function _contractDescription(uint16 cap) private pure returns (bytes memory) {
 		return abi.encodePacked(
-			TITLE, 'The tokens issued by this contract guarantee that the original holder was a recipient of a coin ', PROJECT_DESCRIPTOR, '  A total of ', cap, ' coins were minted and sold.'
+			TITLE, 'The tokens issued by this contract guarantee that the original holder was a recipient of a coin ', PROJECT_DESCRIPTOR, '  A total of ', uint256(cap).toString(), 
+			' coins were minted and sold.'
 		);
 	}
 
 	/**
-	 * @param params describing the token
+	 * @param number of the token
+	 * @param cap maximum number of tokens
 	 * @return The metadata attributes for the token as a JSON array
 	 */
-	function _tokenAttributes(TokenParams memory params) private pure returns (bytes memory) {
+	function _tokenAttributes(uint16 number, uint16 cap) private pure returns (bytes memory) {
 		return abi.encodePacked('[', 
-			MetadataAttribute.NumericParams({displayType: "number", traitType: "Issue", value: params.number, maxValue: params.cap}).toJsonObject(), 
+			MetadataAttribute.NumericParams({displayType: "number", traitType: "Issue", value: number, maxValue: cap}).toJsonObject(), 
 			MetadataAttribute.StringParams({traitType: "Minted Year", value: YEAR_MINTED}).toJsonObject(), 
 			MetadataAttribute.StringParams({traitType: "Composition", value: "99.9% Ag"}).toJsonObject(), 
 			MetadataAttribute.StringParams({traitType: "Mass", value: "1 troy oz"}).toJsonObject(), 
@@ -117,13 +111,14 @@ library MetadataBuilder {
 	}
 
 	/**
-	 * @param params describing the token
+	 * @param number of the token
+	 * @param cap maximum number of tokens
 	 * @return The description for the token
 	 */
-	function _tokenDescription(TokenParams memory params) private pure returns (bytes memory) {
+	function _tokenDescription(uint16 number, uint16 cap) private pure returns (bytes memory) {
 		return abi.encodePacked(
 			TITLE, "This DCoA certifies and guarantees that the original holder was a recipient of coin number ", 
-			uint256(params.number).toString(), " (out of ", uint256(params.cap).toString(), ") ", PROJECT_DESCRIPTOR
+			uint256(number).toString(), " (out of ", uint256(cap).toString(), ") ", PROJECT_DESCRIPTOR
 		);
 	}
 }
