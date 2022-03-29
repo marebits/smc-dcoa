@@ -83,6 +83,9 @@ interface ISilverMareCoinDCoA {
 	 */
 	function contractURI() external view returns (string memory);
 
+	/// @return the minimum allowable certificate number `number`
+	function floor() external view returns (uint16);
+
 	/**
 	 * @param number of the certificate to check claim status
 	 * @return true if the given certificate number `number` has already been claimed; otherwise, returns false
@@ -98,7 +101,4 @@ interface ISilverMareCoinDCoA {
 
 	/// @return the authorized `SIGNER` 
 	function SIGNER() external view returns (address);
-
-	/// @return the minimum allowable certificate number `number`
-	function floor() external pure returns (uint16);
 }

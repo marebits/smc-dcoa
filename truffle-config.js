@@ -2,6 +2,7 @@ const fs = require("fs");
 const HDWalletProvider = require("@truffle/hdwallet-provider");
 const SECRETS = JSON.parse(fs.readFileSync("secrets.json"));
 const TRUFFLE_CONFIG = {
+	api_keys: { polygonscan: SECRETS.POLYGONSCAN_API_KEY }, 
 	networks: {
 		development: {
 			host: "127.0.0.1", 

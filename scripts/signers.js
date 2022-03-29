@@ -1,0 +1,8 @@
+const SIGNERS = {
+	development: "0xbaeb3bd505b6674bf44ede0f00e86c7172b40b39", 
+	ganache: "0x889976c9BB7078F5538A7c8A07a5A303A394C251", 
+	mumbai: "0x889976c9BB7078F5538A7c8A07a5A303A394C251", 
+	polygon: "0x00Ad9AEb02CC7892c94DBd9E9BE93Ec5cf644632"
+};
+SIGNERS.develop = SIGNERS.development;
+module.exports = SIGNERS;
