@@ -6,20 +6,13 @@
 	"scripts": {
 		"build": "bin/build",
 		"compile": "npx truffle compile",
-		"console": "npx hardhat console --network localhost",
 		"console-ganache": "export NODE_OPTIONS=--openssl-legacy-provider && npx truffle console --network ganache",
 		"dashboard": "npx truffle dashboard",
 		"deploy": "npx truffle migrate --network development --reset",
 		"deploy-dashboard": "npx truffle migrate --network dashboard --reset",
 		"deploy-ganache": "npx truffle migrate --network ganache --reset",
-		"deploy-mumbai": "export NODE_OPTIONS=--openssl-legacy-provider && npx hardhat deploy --export abi/SilverMareCoinDCoA-mumbai.json --reset --network mumbai",
-		"deploy-polygon": "export NODE_OPTIONS=--openssl-legacy-provider && npx hardhat deploy --export abi/SilverMareCoinDCoA.json --network polygon",
-		"deploy-ropsten": "export NODE_OPTIONS=--openssl-legacy-provider && npx hardhat deploy --export abi/SilverMareCoinDCoA-ropsten.json --reset --network ropsten",
-		"etherscan-verify": "npx hardhat etherscan-verify --license None --force-license --sleep --network ropsten",
-		"generate-claim-codes": "npx truffle exec scripts/generateClaimCodes.js --network polygon", 
+		"generate-claim-codes": "npx truffle exec scripts/generateClaimCodes.js --network polygon",
 		"github": "git commit -a && git push origin master",
-		"localnode": "npx truffle develop",
-		"node": "npx hardhat node --no-deploy --network hardhat",
 		"svg": "npx svgo -i dcoa.svg -o dcoa.min.svg -p 1 --multipass"
 	},
 	"keywords": [
@@ -31,23 +24,12 @@
 		"erc721"
 	],
 	"author": "Twifag",
-	"license": "SEE LICENSE IN https://donutsteel.pl",
+	"license": "LicenseRef-DSPL AND LicenseRef-NIGGER",
 	"devDependencies": {
-		"@nomiclabs/hardhat-ethers": "^2.0.5",
-		"@nomiclabs/hardhat-etherscan": "^3.0.1",
 		"@opengsn/contracts": "^2.2.6",
 		"@openzeppelin/contracts": "^4.5.0",
 		"@truffle/hdwallet-provider": "^2.0.4",
-		"@types/chai": "^4.3.0",
-		"@types/mocha": "^9.1.0",
-		"@types/node": "^17.0.18",
-		"chai": "^4.3.6",
-		"ethers": "^5.5.4",
-		"hardhat": "^2.8.4",
-		"hardhat-deploy": "^0.10.5",
 		"svgo": "^2.8.0",
-		"truffle": "^5.5.6",
-		"ts-node": "^10.5.0",
-		"web3": "^1.7.0"
+		"truffle": "^5.5.6"
 	}
 }
