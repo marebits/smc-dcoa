@@ -13,6 +13,14 @@ const TRUFFLE_CONFIG = {
 			network_id: 1337, 
 			provider: () => new HDWalletProvider({ mnemonic: { phrase: SECRETS.WALLET_MNEMONIC }, providerOrUrl: "http://127.0.0.1:7545" }), 
 			port: 7545
+		}, 
+		mumbai: {
+			network_id: 80001, 
+			provider: () => new HDWalletProvider({ mnemonic: { phrase: SECRETS.WALLET_MNEMONIC }, providerOrUrl: SECRETS.ALCHEMY_API_KEY_MUMBAI }), 
+		}, 
+		polygon: {
+			network_id: 137, 
+			provider: () => new HDWalletProvider({ mnemonic: { phrase: SECRETS.WALLET_MNEMONIC }, providerOrUrl: SECRETS.ALCHEMY_API_KEY_POLYGON }), 
 		}
 	},
 	mocha: {

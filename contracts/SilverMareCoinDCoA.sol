@@ -28,7 +28,7 @@ contract SilverMareCoinDCoA is EIP712, ERC2771Context, Ownable, ERC721Enumerable
 	using Strings for uint256;
 
 	/// @dev The maximum possible token number to be minted; immutable and set at deploy time
-	uint16 private constant _CAP = 100;
+	uint16 private immutable _CAP;
 	/// @dev The `typeHash` used to create {certificateSigningHash}es.  See https://eips.ethereum.org/EIPS/eip-712#rationale-for-typehash
 	bytes32 private constant _CERTIFICATE_TYPEHASH = keccak256("Certificate(uint16 number,uint16 cap)");
 	/// @dev The minimum possible token number to be minted; this is typically 0 for most contracts, but it should be 1 for this one (unless we begin numbering at 0)
@@ -40,10 +40,14 @@ contract SilverMareCoinDCoA is EIP712, ERC2771Context, Ownable, ERC721Enumerable
 	address public immutable SIGNER;
 
 	/**
+	 * @param cap_ the maximum possible certificates to be minted
 	 * @param signer that will be assigned to {SIGNER} at deploy
 	 * @param trustedForwarder will be the initial trusted forwarder, see {ERC2771Context}
 	 */
-	constructor(address signer, address trustedForwarder) ERC721(_NAME, _SYMBOL) ERC2771Context(trustedForwarder) EIP712(_NAME, _VERSION) { SIGNER = signer; }
+	constructor(uint16 cap_, address signer, address trustedForwarder) ERC721(_NAME, _SYMBOL) ERC2771Context(trustedForwarder) EIP712(_NAME, _VERSION) {
+		_CAP = cap_;
+		SIGNER = signer;
+	}
 
 	/// @inheritdoc ISilverMareCoinDCoA
 	function claimCertificates(ClaimDetails[] calldata claims) external {
@@ -53,13 +57,13 @@ contract SilverMareCoinDCoA is EIP712, ERC2771Context, Ownable, ERC721Enumerable
 	}
 
 	/// @inheritdoc ISilverMareCoinDCoA
-	function cap() external pure returns (uint16) { return _CAP; }
-
-	/// @inheritdoc ISilverMareCoinDCoA
-	function contractURI() external pure returns (string memory) { return MetadataBuilder.contractUri(_CAP); }
-
-	/// @inheritdoc ISilverMareCoinDCoA
 	function floor() external pure returns (uint16) { return _FLOOR; }
+
+	/// @inheritdoc ISilverMareCoinDCoA
+	function cap() external view returns (uint16) { return _CAP; }
+
+	/// @inheritdoc ISilverMareCoinDCoA
+	function contractURI() external view returns (string memory) { return MetadataBuilder.contractUri(_CAP); }
 
 	/// @inheritdoc ISilverMareCoinDCoA
 	function claimCertificate(uint16 number, bytes calldata signature) public {
@@ -100,7 +104,7 @@ contract SilverMareCoinDCoA is EIP712, ERC2771Context, Ownable, ERC721Enumerable
 	}
 
 	/// @inheritdoc ERC721
-	function tokenURI(uint256 tokenId) public pure override(ERC721) returns (string memory) { return MetadataBuilder.tokenUri(tokenId.toUint16(), _CAP); }
+	function tokenURI(uint256 tokenId) public view override(ERC721) returns (string memory) { return MetadataBuilder.tokenUri(tokenId.toUint16(), _CAP); }
 
 	/// @inheritdoc ERC721
 	function _safeMint(address to, uint256 tokenId) internal override {
