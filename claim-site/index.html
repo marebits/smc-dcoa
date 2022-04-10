@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb#" 🦄 🐎🐱>
+	<head>
+		<meta charset="utf-8">
+		<!-- <meta content="default-src 'self'; connect-src 'self' *.infura.io; font-src 'self' fonts.gstatic.com; img-src 'self' data:; script-src 'self' 'sha512-ZwlmMMxYc0jBLA6Vpyoh64qcG0yhBvqb6l42vpg/3KqLcGu2V992vulZzcmn5VVSztpYAxi25OGddSkd+AZNLQ=='; style-src 'self' 'unsafe-inline' fonts.googleapis.com; upgrade-insecure-requests" http-equiv="content-security-policy"> -->
+		<meta content="width=device-width, initial-scale=1" name="viewport">
+		<base href=".">
+		<meta content="2022 Silver Mare Coin Digital Certificate of Authenticity Claims" name="title" property="og:title">
+		<meta content="Here you can claim your official Digital Certificate of Authenticity for your 2022 Silver Mare Coin(s) produced by /mlp/" property="og:description">
+		<meta content="website" property="og:type">
+		<meta content="summary" name="twitter:card">
+		<meta content="@MareBits" name="twitter:site">
+		<link href="//iwtcits.com" importance="high" rel="bestpony" type="text/html">
+		<link href="//donutsteal.pl" rel="code-license content-license license" type="text/html">
+		<link href="//plusnigger.autism.exposed" rel="code-license content-license license" type="text/html">
+		<link href="favicon.svg" rel="shortcut icon" type="image/svg+xml">
+		<title>2022 Silver Mare Coin Digital Certificate of Authenticity Claims</title>
+		<style>
+			body {
+				background-color: #662d8a;
+				color: #bbb;
+			}
+		</style>
+	</head>
+	<body>
+		<h1>2022 Silver Mare Coin</h1>
+		<h2>Digital Certificate of Authenticity</h2>
+		<section>
+			Here you can claim your official 2022 Silver Mare Coin Digital Certificate of Authenticity (DCoA).
+		</section>
+		<section class="alert" hidden id="error-chain">
+			<div>You must be connected to the Polygon chain to use this application.</div>
+			<button disabled id="change-chain">Change Chain</button>
+		</section>
+		<section class="alert" hidden id="error-insecure">
+			You must use a secure (HTTPS) connection.  Please try <a href="" id="secure-link">reloading the secure version of this page</a>.
+		</section>
+		<section>
+			<section class="disconnected">
+				<button disabled id="connect">Connect Wallet</button>
+			</section>
+			<section class="connected" hidden>
+				<button disabled id="disconnect">Disconnect Wallet</button>
+				<div>Account: <output id="wallet-address"></output></div>
+				<div>Network: <output id="network-name"></output></div>
+			</section>
+		</section>
+		<script async>
+			"use strict";
+
+			if (typeof(window.globalThis) === "undefined")
+				window.globalThis = window;
+
+			(function() {
+				const CHAINID_URL = "https://chainid.network/chains_mini.json";
+				const ELEMENT_TRACKING_IDS = ["change-chain", "connect", "disconnect", "error-chain", "error-insecure", "network-name", "secure-link", "wallet-address"];
+				const MUMBAI_CHAIN_ID = 80001;
+				const POLYGON_CHAIN_ID = 137;
+				const SCRIPTS = [
+					"node_modules/@walletconnect/web3-provider/dist/umd/index.min.js", 
+					"node_modules/web3/dist/web3.min.js", 
+					"node_modules/web3modal/dist/index.js"
+				];
+
+				const ELEMENTS = {};
+				const PRIVATES = {};
+
+				function bodyOnLoad() {
+					ELEMENTS.scripts = {};
+					ELEMENT_TRACKING_IDS.forEach(elementName => ELEMENTS[elementName.replace(/-([a-z])/g, (match, letter) => letter.toUpperCase())] = globalThis.document.getElementById(elementName));
+					ELEMENTS.connected = globalThis.document.getElementsByClassName("connected");
+					ELEMENTS.disconnected = globalThis.document.getElementsByClassName("disconnected");
+					ELEMENTS.connect.addEventListener("click", () => connectOnClick().catch(console.error), { passive: true });
+					ELEMENTS.disconnect.addEventListener("click", () => disconnectOnClick().catch(console.error), { passive: true });
+					SCRIPTS.forEach(url => loadScript(url));
+
+					if (globalThis.location.protocol !== "https:") {
+						ELEMENTS.errorInsecure.hidden = false;
+						const secureLinkUrl = new globalThis.URL(globalThis.location);
+						secureLinkUrl.protocol = "https:";
+						ELEMENTS.secureLink.href = secureLinkUrl;
+						return;
+					}
+					ELEMENTS.connect.disabled = false;
+					PRIVATES.isChainDataLoading = false;
+					// createElement("link", { as: "fetch", crossOrigin: "", fetchpriority: "low", href: CHAINID_URL, rel: "preload", type: "application/json" }, globalThis.document.head);
+				}
+
+				async function connectOnClick() {
+					try {
+						ELEMENTS.connect.disabled = true;
+						await refreshAccountData();
+						globalThis.requestAnimationFrame(() => {
+							globalThis.Array.prototype.forEach.call(ELEMENTS.connected, element => element.hidden = false);
+							globalThis.Array.prototype.forEach.call(ELEMENTS.disconnected, element => element.hidden = true);
+							ELEMENTS.disconnect.disabled = false;
+						});
+					} catch (e) {
+						ELEMENTS.connect.disabled = false;
+						throw e;
+					}
+				}
+
+				function createElement(name, attributes = {}, parent = undefined, text = undefined) {
+					function setAttributes(element, attributes = {}) {
+						for (const key in attributes)
+							element.setAttribute(key, attributes[key]);
+					}
+
+					const element = globalThis.document.createElement(name);
+					setAttributes(element, attributes);
+
+					if (text !== undefined)
+						element.textContent = globalThis.String(text);
+
+					if (parent instanceof globalThis.Node)
+						parent.appendChild(element);
+					return element;
+				}
+
+				async function deleteProvider() {
+					if (typeof PRIVATES.provider === "undefined")
+						return;
+
+					async function closeProvider() {
+						const provider = await getProvider();
+
+						if (provider.close) {
+							try { await provider.close(); }
+							catch (e) {}
+						}
+					}
+
+					async function clearCachedProvider() {
+						const web3Modal = await getWeb3Modal();
+						await web3Modal.clearCachedProvider();
+					}
+
+					await globalThis.Promise.all([closeProvider(), clearCachedProvider()]);
+					delete PRIVATES.provider;
+				}
+
+				async function disconnectOnClick() {
+					try {
+						ELEMENTS.disconnect.disabled = true;
+						await deleteProvider();
+						globalThis.requestAnimationFrame(() => {
+							globalThis.Array.prototype.forEach.call(ELEMENTS.connected, element => element.hidden = true);
+							globalThis.Array.prototype.forEach.call(ELEMENTS.disconnected, element => element.hidden = false);
+							ELEMENTS.connect.disabled = false;
+						});
+					} catch (e) {
+						ELEMENTS.disconnect.disabled = false;
+						throw e;
+					}
+				}
+
+				async function getChainData(chainId) {
+					if (!(PRIVATES.CHAINS instanceof globalThis.Promise) && !PRIVATES.isChainDataLoading) {
+						PRIVATES.isChainDataLoading = true;
+
+						async function loadChainData() {
+							try {
+								const response = await globalThis.fetch(CHAINID_URL, { cache: "force-cache" });
+								return response.json();
+							} catch (e) { return [{ name: "Polygon Mainnet", chainId: POLYGON_CHAIN_ID }]; }
+							finally { PRIVATES.isChainDataLoading = false; }
+						}
+
+						PRIVATES.CHAINS = loadChainData().catch(console.error);
+					}
+
+					if (typeof chainId !== "number") {
+						const newChainId = globalThis.Number.parseInt(chainId);
+
+						if (!globalThis.Number.isNaN(newChainId))
+							chainId = newChainId;
+					}
+					const chains = await PRIVATES.CHAINS;
+					const chainData = chains.find(chain => chain.chainId === chainId);
+					return chainData ? chainData : {
+						name: `Unknown chain name (ID ${chainId})`,
+						chainId,
+						shortName: "UNK",
+						networkId: -1,
+						nativeCurrency: {
+							name: "Unknown",
+							symbol: "UNK",
+							decimals: 18
+						},
+						rpc: [""],
+						faucets: [""],
+						infoURL: ""
+					};
+				}
+
+				async function getChainName(chainId) {
+					const chainData = await getChainData(chainId);
+					return chainData.name;
+				}
+
+				async function getProvider() {
+					if (typeof PRIVATES.provider !== "undefined")
+						return PRIVATES.provider;
+					const web3Modal = await getWeb3Modal();
+					try { PRIVATES.provider = await web3Modal.connect(); }
+					catch (e) {
+						await deleteProvider();
+						throw e;
+					}
+					PRIVATES.provider.on("accountsChanged", walletAddressSetTextContent);
+					PRIVATES.provider.on("chainChanged", chainId => providerOnChainChanged(chainId).catch(console.error));
+					return PRIVATES.provider;
+				}
+
+				async function getWalletConnectProviderDefault() {
+					await ELEMENTS.scripts["@walletconnect"];
+					return globalThis.WalletConnectProvider.default;
+				}
+
+				async function getWeb3() {
+					await ELEMENTS.scripts["web3"];
+					return globalThis.Web3;
+				}
+
+				async function getWeb3Modal() {
+					if (typeof PRIVATES.web3Modal !== "undefined")
+						return PRIVATES.web3Modal;
+					const [[maticChainInfo, mumbaiChainInfo], Web3ModalDefault] = await globalThis.Promise.all([
+						globalThis.Promise.all([getChainData(POLYGON_CHAIN_ID), getChainData(MUMBAI_CHAIN_ID)]), 
+						getWeb3ModalDefault()
+					]);
+					return PRIVATES.web3Modal = new Web3ModalDefault({
+						cacheProvider: false, 
+						disableInjectedProvider: false, 
+						network: "matic", 
+						providerOptions: {
+							walletconnect: {
+								package: await getWalletConnectProviderDefault(), 
+								options: { rpc: { [maticChainInfo.chainId]: maticChainInfo.rpc[0], [mumbaiChainInfo.chainId]: mumbaiChainInfo.rpc[0] } }
+							}
+						}, 
+						theme: "dark"
+					});
+				}
+
+				async function getWeb3ModalDefault() {
+					await ELEMENTS.scripts["web3modal"];
+					return globalThis.Web3Modal.default;
+				}
+
+				function loadScript(url) {
+					const script = createElement("script", { async: true, src: url });
+					const result = new globalThis.Promise(resolve => script.addEventListener("load", resolve, { once: true, passive: true }));
+					globalThis.document.head.appendChild(script);
+					ELEMENTS.scripts[url.split("/")[1]] = result;
+				}
+
+				function networkNameSetTextContent(chainName) { ELEMENTS.networkName.textContent = chainName; }
+
+				async function providerOnChainChanged(chainId) {
+					const chainData = await getChainData(chainId);
+					ELEMENTS.errorChain.hidden = chainData.chainId === POLYGON_CHAIN_ID;
+					networkNameSetTextContent(chainData.name);
+				}
+
+				async function refreshAccountData() {
+					const Web3 = await getWeb3();
+					const web3 = new Web3(await getProvider());
+
+					async function setChainName() { await providerOnChainChanged(await web3.eth.getChainId()); }
+
+					async function setWalletAddress() { walletAddressSetTextContent(await web3.eth.getAccounts()); }
+
+					await globalThis.Promise.all([setChainName(), setWalletAddress()]);
+				}
+
+				function walletAddressSetTextContent(accounts) {
+					if (typeof accounts === "undefined" || typeof accounts[0] === "undefined") {
+						ELEMENTS.walletAddress.textContent = "Not connected to a wallet.";
+						disconnectOnClick().catch(console.error);
+					} else
+						ELEMENTS.walletAddress.textContent = accounts[0];
+				}
+
+				if (globalThis.document.readyState === "complete")
+					bodyOnLoad();
+				else
+					globalThis.document.addEventListener("DOMContentLoaded", bodyOnLoad, { once: true, passive: true });
+			})();
+		</script>
+	</body>
+</html>
