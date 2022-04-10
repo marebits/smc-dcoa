@@ -2,6 +2,8 @@ artifacts/
 build/*
 cache/
 claimCodes-*.json
+claim-site/node_modules/
+claim-site/secrets.json
 dcoa.min.svg
 deployments/localhost/
 node_modules/

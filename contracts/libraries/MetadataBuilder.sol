@@ -6,6 +6,64 @@ import "./MetadataAttribute.sol";
 import "./SVGBuilder.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
 
+/*
+OK, from my observations claiming is not really anonymous, because you need to specify a coin number. If the crowdfunding data is leaked, everyone will know the shipping address of the claimer. If someone holds a significant amount of crypto assets, it is strongly suggested to use an empty wallet for claiming.
+For metadata I would suggest to use the fields used by Numista.
+https://en.numista.com/catalogue/exonumia319448.html
+>Location (of minting?)
+>Type
+>Year
+>Value
+>Composition
+>Weight
+>Size (Diameter)
+>Thickness
+>Shape
+>Technique
+>Orientation
+>Numista Number (or alternative numismatic site)
+>Obverse description
+>Reverse description
+>Edge description
+*/
+
+/*
+{
+	"name":"Silver Mare Coin Digital Certificate of Authenticity #1/100",
+	"description":"# Digital Certificate of Authenticity (DCoA)\n\n## 2022 *The Ride Never Ends*\n\n## One Ounce Fine Silver\n\nThis DCoA certifies and guarantees that the original holder was a recipient of coin number 1 (out of 100) from the initial minting of *The Ride Never Ends* fine silver coins minted in 2022 as part of the Silver Mare Coin project on /mlp/.",
+	"image":"",
+	"background_color":"cc9cdf",
+	"attributes":[
+		{
+			"display_type":"number",
+			"max_value":100,
+			"trait_type":"Issue",
+			"value":1
+		},
+		{
+			"trait_type":"Minted Year",
+			"value":"2022"
+		},
+		{
+			"trait_type":"Composition",
+			"value":"99.9% Ag"
+		},
+		{
+			"trait_type":"Mass",
+			"value":"1 troy oz"
+		},
+		{
+			"trait_type":"Diameter",
+			"value":"39 mm"
+		},
+		{
+			"trait_type":"Thickness",
+			"value":"0.12 in"
+		}
+	]
+}
+*/
+
 /**
  * @title Library grouping functions used to generate metadata for the contract and individual tokens.
  * @author Twifag
@@ -101,11 +159,11 @@ library MetadataBuilder {
 	 */
 	function _tokenAttributes(uint16 number, uint16 cap) private pure returns (bytes memory) {
 		return abi.encodePacked('[', 
-			MetadataAttribute.NumericParams({displayType: "number", traitType: "Issue", value: number, maxValue: cap}).toJsonObject(), 
-			MetadataAttribute.StringParams({traitType: "Minted Year", value: YEAR_MINTED}).toJsonObject(), 
-			MetadataAttribute.StringParams({traitType: "Composition", value: "99.9% Ag"}).toJsonObject(), 
-			MetadataAttribute.StringParams({traitType: "Mass", value: "1 troy oz"}).toJsonObject(), 
-			MetadataAttribute.StringParams({traitType: "Diameter", value: "39 mm"}).toJsonObject(), 
+			MetadataAttribute.NumericParams({displayType: "number", traitType: "Issue", value: number, maxValue: cap}).toJsonObject(), ',', 
+			MetadataAttribute.StringParams({traitType: "Minted Year", value: YEAR_MINTED}).toJsonObject(), ',', 
+			MetadataAttribute.StringParams({traitType: "Composition", value: "99.9% Ag"}).toJsonObject(), ',', 
+			MetadataAttribute.StringParams({traitType: "Mass", value: "1 troy oz"}).toJsonObject(), ',', 
+			MetadataAttribute.StringParams({traitType: "Diameter", value: "39 mm"}).toJsonObject(), ',', 
 			MetadataAttribute.StringParams({traitType: "Thickness", value: "0.12 in"}).toJsonObject(), 
 		']');
 	}
