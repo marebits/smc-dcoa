@@ -30,36 +30,56 @@ https://en.numista.com/catalogue/exonumia319448.html
 /*
 {
 	"name":"Silver Mare Coin Digital Certificate of Authenticity #1/100",
-	"description":"# Digital Certificate of Authenticity (DCoA)\n\n## 2022 *The Ride Never Ends*\n\n## One Ounce Fine Silver\n\nThis DCoA certifies and guarantees that the original holder was a recipient of coin number 1 (out of 100) from the initial minting of *The Ride Never Ends* fine silver coins minted in 2022 as part of the Silver Mare Coin project on /mlp/.",
+	"description":"# Digital Certificate of Authenticity (DCoA) \n## 2022 *The Ride Never Ends* \n## One Ounce Fine Silver \nThis DCoA certifies and guarantees that the original holder was a recipient of coin number 1 (out of 100) from the initial minting of *The Ride Never Ends* fine silver coins minted in 2022 as part of the Silver Mare Coin project on /mlp/. \n\n### Obverse \nAnonfilly riding a roller coaster while wearing a /mlp/ 4cc scarf with Canterlot in the background. \n\n*Lettering*: \nTHE RIDE NEVER ENDS\n2012 2022 \n\n### Reverse \nAn earth, pegasus, and unicorn pony decorating the /mlp/ seal with laurels. \n\n*Lettering*: \nMARES 🍀︎ repeated along the rim \n1 OZ FINE SILVER along bottom of rim \n\n### Edge \nEngraved with repeating Latin motto. \n\n*Lettering*: EQUITATUS NUMQUAM FINIT",
 	"image":"",
 	"background_color":"cc9cdf",
 	"attributes":[
 		{
-			"display_type":"number",
-			"max_value":100,
-			"trait_type":"Issue",
-			"value":1
-		},
-		{
-			"trait_type":"Minted Year",
-			"value":"2022"
-		},
-		{
 			"trait_type":"Composition",
-			"value":"99.9% Ag"
-		},
-		{
-			"trait_type":"Mass",
-			"value":"1 troy oz"
+			"value":"Silver (.999)"
 		},
 		{
 			"trait_type":"Diameter",
 			"value":"39 mm"
 		},
 		{
+			"trait_type":"Location",
+			"value":"United States"
+		},
+		{
+			"trait_type":"Mass",
+			"value":"1 troy oz"
+		},
+		{
+			"trait_Type":"Numista Type Number",
+			"value":"TBD"
+		},
+		{
+			"trait_type":"Orientation",
+			"value":"Coin alignment ↑↓"
+		},
+		{
+			"display_type":"number",
+			"max_value":100,
+			"trait_type":"Serial Number",
+			"value":1
+		},
+		{
+			"trait_type":"Shape",
+			"value":"Round"
+		},
+		{
+			"trait_type":"Technique",
+			"value":"Milled"
+		},
+		{
 			"trait_type":"Thickness",
 			"value":"0.12 in"
-		}
+		},
+		{
+			"trait_type":"Year",
+			"value":"2022"
+		},
 	]
 }
 */

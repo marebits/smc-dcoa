@@ -8,3 +8,4 @@ dcoa.min.svg
 deployments/localhost/
 node_modules/
 secrets.json
+token-metadata/*
