@@ -10,4 +10,16 @@ async function getNetworkName(config) {
 	return config.network;
 }
 
-module.exports = { getNetworkName };
+function prepareTemplate(strings, ...args) {
+	const result = args.reduce((result, arg, i) => {
+		const j = i << 1;
+		[result[j], result[j + 1]] = [strings[i], arg];
+		return result;
+	}, new globalThis.Array(strings.length + args.length));
+	result[result.length - 1] = strings[strings.length - 1];
+	return result;
+}
+
+function processTemplate(template, replacements) { return template.map(item => (typeof replacements[item] === "undefined") ? item.toString() : replacements[item]).join(""); }
+
+module.exports = { getNetworkName, prepareTemplate, processTemplate };

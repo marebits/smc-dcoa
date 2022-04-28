@@ -29,6 +29,7 @@
 		"@opengsn/contracts": "^2.2.6",
 		"@openzeppelin/contracts": "^4.5.0",
 		"@truffle/hdwallet-provider": "^2.0.4",
+		"ipfs-car": "^0.7.0",
 		"svgo": "^2.8.0",
 		"truffle": "^5.5.6"
 	}

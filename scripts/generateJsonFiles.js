@@ -9,8 +9,7 @@ const TOKEN_METADATA_PATH = "token-metadata";
 async function generateJsonFiles(callbackFn) {
 	try {
 		const silverMareCoinDCoA = await SilverMareCoinDCoA.deployed();
-		const cap = await silverMareCoinDCoA.cap();
-		const floor = await silverMareCoinDCoA.floor();
+		const [cap, floor] = await globalThis.Promise.all([silverMareCoinDCoA.cap(), silverMareCoinDCoA.floor()]);
 		const files = new globalThis.Array();
 
 		for (let i = floor; i <= cap; i++) {
