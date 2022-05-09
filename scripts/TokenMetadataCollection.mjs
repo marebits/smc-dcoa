@@ -1,21 +1,19 @@
-import { FileGeneratorCollection } from "./FileGeneratorCollection.mjs";
+import { TokenGenericCollection } from "./TokenGenericCollection.mjs";
 import { TokenMetadata } from "./TokenMetadata.mjs";
 
-export class TokenMetadataCollection extends FileGeneratorCollection {
+export class TokenMetadataCollection extends TokenGenericCollection {
 	static #FILE_EXTENSION = "json";
+	static #MIME_TYPE = "application/json";
 
-	#cap;
-	#floor;
 	#svgUri;
 
 	constructor(floor, cap, tokenMetadataDirectory, svgUri) {
-		super(tokenMetadataDirectory, TokenMetadataCollection.#FILE_EXTENSION);
-		[this.#cap, this.#floor, this.#svgUri] = [globalThis.Number.parseInt(cap), globalThis.Number.parseInt(floor), svgUri];
+		super(floor, cap, tokenMetadataDirectory, TokenMetadataCollection.#FILE_EXTENSION);
+		this.#svgUri = svgUri;
 		this.#populate();
 	}
-	get [globalThis.Symbol.toStringTag]() { return "TokenMetadataCollection"; }
-	get cap() { return this.#cap; }
-	get floor() { return this.#floor; }
+	get [globalThis.Symbol.toStringTag]() { return this.constructor.name; }
+	get mimeType() { return this.constructor.#MIME_TYPE; }
 	get svgUri() { return this.#svgUri; }
 	get targetFileRegex() { return new globalThis.RegExp(`[0-9]+\\.${this.fileExtension}$`); }
 	#populate() {

@@ -1,20 +1,19 @@
-import { FileGeneratorCollection } from "./FileGeneratorCollection.mjs";
+import { TokenGenericCollection } from "./TokenGenericCollection.mjs";
 import { TokenImage } from "./TokenImage.mjs";
 
-export class TokenImageCollection extends FileGeneratorCollection {
+export class TokenImageCollection extends TokenGenericCollection {
 	static #FILE_EXTENSION = "svg";
+	static #MIME_TYPE = "image/svg+xml";
 
 	#cap;
 	#floor;
 
 	constructor(floor, cap, tokenImageDirectory) {
-		super(tokenImageDirectory, TokenImageCollection.#FILE_EXTENSION);
-		[this.#cap, this.#floor] = [globalThis.Number.parseInt(cap), globalThis.Number.parseInt(floor)];
+		super(floor, cap, tokenImageDirectory, TokenImageCollection.#FILE_EXTENSION);
 		this.#populate();
 	}
-	get [globalThis.Symbol.toStringTag]() { return "TokenImageCollection"; }
-	get cap() { return this.#cap; }
-	get floor() { return this.#floor; }
+	get [globalThis.Symbol.toStringTag]() { return this.constructor.name; }
+	get mimeType() { return this.constructor.#MIME_TYPE; }
 	get targetFileRegex() { return new globalThis.RegExp(`[0-9]+\\.${this.fileExtension}$`); }
 	#populate() {
 		for (let i = this.floor; i <= this.cap; i++)

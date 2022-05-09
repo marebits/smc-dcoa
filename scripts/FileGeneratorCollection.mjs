@@ -13,9 +13,10 @@ export class FileGeneratorCollection extends Collection {
 		this.#directory = Path.isAbsolute(directory) ? directory : Path.normalize(Path.join(Process.cwd(), directory));
 		this.#fileExtension = fileExtension;
 	}
-	get [globalThis.Symbol.toStringTag]() { return "FileGeneratorCollection"; }
+	get [globalThis.Symbol.toStringTag]() { return this.constructor.name; }
 	get directory() { return this.#directory; }
 	get fileExtension() { return this.#fileExtension; }
+	get mimeType() { return "application/octet-stream"; }
 	get targetFileRegex() { return new globalThis.RegExp(`*\\.${this.fileExtension}$`); }
 	pathOf(key) { return this.has(key) ? Path.join(this.directory, `${key}.${this.fileExtension}`) : undefined; }
 	async saveAll() {

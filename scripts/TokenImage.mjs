@@ -27,7 +27,7 @@ export class TokenImage {
 
 	constructor(number, cap) { [this.#cap, this.#number] = [globalThis.Number.parseInt(cap), globalThis.Number.parseInt(number)]; }
 	get #symbolDefinitions() { return { [CAP_SYMBOL]: this.#cap, [COIN_NAME_SYMBOL]: this.createElement("i", COIN_NAME), [NUMBER_SYMBOL]: this.number }; }
-	get [globalThis.Symbol.toStringTag]() { return "TokenImage"; }
+	get [globalThis.Symbol.toStringTag]() { return this.constructor.name; }
 	get background() { return this.createElement("rect", "", { width: "100%", height: "100%", fill: BACKGROUND_COLOR, rx: "3%" }); }
 	get description() {
 		const descriptionTitle = this.createElement("h1", DESCRIPTION_TITLE);
