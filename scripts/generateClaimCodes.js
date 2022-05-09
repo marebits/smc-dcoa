@@ -8,9 +8,8 @@ function asyncDelay(delayTimeMs) { return new Promise(resolve => setTimeout(reso
 
 async function generateClaimCodes(callbackFn) {
 	try {
-		const currentNetwork = await utils.getNetworkName(config);
 		const silverMareCoinDCoA = await SilverMareCoinDCoA.deployed();
-		const cap = await silverMareCoinDCoA.cap();
+		const [cap, currentNetwork] = await globalThis.Promise.all([silverMareCoinDCoA.cap(), utils.getNetworkName()]);
 		const certificateClaimCodes = new Array(cap);
 		const generatingMessage = "Generating claim code ";
 		process.stdout.write(generatingMessage);
