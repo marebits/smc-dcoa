@@ -36,6 +36,12 @@ If you need to claim your tokens and need a small amount of MATIC, please send y
 
 ### Functions
 <ul>
+<li>Custom data structures
+<dl>
+<dt><code>ClaimDetails(uint16 number, bytes signature)</code></dt>
+<dd>Encapsulates the data needed for each certificate claim: The certificate number and the signature.  Used when claiming multiple certificates with the <code>claimCertificates</code> function.</dd>
+</dl>
+</li>
 <li>Custom functions
 <dl>
 <dt><code>cap() returns (uint16)</code></dt>
@@ -47,6 +53,9 @@ If you need to claim your tokens and need a small amount of MATIC, please send y
 <dt><code>claimCertificate(uint16 number, bytes signature)</code></dt>
 <dd>Verifies that the given <code>signature</code> matches the one generated for the given certificate <code>number</code> and was signed by the proper signer.  If this is all correct, it then issues the matching certificate and a <code>CertificateClaimed</code> event is emitted.</dd>
 
+<dt><code>claimCertificates(ClaimDetails[] claims)</code></dt>
+<dd>Verifies that each given <code>signature</code> match the one generated for the respective given certificate <code>number</code> and was signed by the proper signer.  If this is all correct for all claims, it then issues matching certificates and <code>CertificateClaimed</code> events are emitted.</dd>
+
 <dt><code>contractURI() returns (string)</code></dt>
 <dd>Returns the Uniform Resource Indicator (URI) for this contract.  This is used by token metadata sites to display overall collection metadata related to all the certificates issued by this contract.</dd>
 
@@ -55,6 +64,9 @@ If you need to claim your tokens and need a small amount of MATIC, please send y
 
 <dt><code>isCertificateClaimed(uint16 number) returns (bool)</code></dt>
 <dd>Returns true if the certificate with the given <code>number</code> has already been claimed; otherwise, returns false.</dd>
+
+<dt><code>isValidSignature(uint16 number, bytes signature) returns (bool)</code></dt>
+<dd>Returns true if the given <code>signature</code> matches the one generated for the given certificate <code>number</code> and was signed by the proper signer.</dd>
 
 <dt><code>SIGNER() returns (address)</code></dt>
 <dd>Returns the address of the proper signer.</dd>
@@ -91,7 +103,7 @@ If you need to claim your tokens and need a small amount of MATIC, please send y
 <dd>Transfers the ownership of the certificate specified by <code>tokenId</code> from one address to another, along with optional data in no specified format.  <b>Please note that if the recipient wallet is not able to receive ERC-721 tokens, the transfer may fail and the certificate may be lost.</b>  For this reason, it's <i>highly</i> recommended you use <code>safeTransferFrom()</code> instead.</dd>
 </dl>
 </li>
-<li><a href="https://eips.ethereum.org/EIPS/eip-721">ERC-721</a> metadata extension
+<li><a href="https://eips.ethereum.org/EIPS/eip-721">ERC-721</a> metadata extension functions
 <dl>
 <dt><code>name() returns (string)</code></dt>
 <dd>Returns the name of this certificate; i.e., <q>Silver Mare Coin Digital Certificate of Authenticity</q>.</dd>
@@ -100,10 +112,10 @@ If you need to claim your tokens and need a small amount of MATIC, please send y
 <dd>Returns the symbol of this certificate; i.e., <q>SMC DCoA</q> (<b>TBD</b>).</dd>
 
 <dt><code>tokenURI(uint256 tokenId) returns (string)</code></dt>
-<dd>Returns a <a href="https://en.wikipedia.org/wiki/Base64">Base64</a>-encoded <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/Data_URIs"><code>data:</code> URI</a> representing the JSON document that defines the metadata for the certificate specified by <code>tokenId</code>.  This JSON document also contains a Base64-encoded <code>data:</code> URI representing an SVG image depicting the coin (<b>TBD</b>, could also be a JSON file hosted on an immutable service like <a href="https://ipfs.io/">IPFS</a>).  This is used by external sites to display the image and metadata for this certificate.</dd>
+<dd>Returns a <a href="https://docs.ipfs.io/concepts/what-is-ipfs/"><code>ipfs://</code></a> URI corresponding to the JSON document that defines the metadata for the certificate specified by <code>tokenId</code>.  This JSON document also contains an <code>ipfs://</code> URI corresponding to the SVG image depicting the coin.  This is used by external sites to display the image and metadata for this certificate.</dd>
 </dl>
 </li>
-<li><a href="https://eips.ethereum.org/EIPS/eip-721">ERC-721</a> enumeration extension
+<li><a href="https://eips.ethereum.org/EIPS/eip-721">ERC-721</a> enumeration extension functions
 <dl>
 <dt><code>tokenOfOwnerByIndex(address owner, uint256 index) returns (uint256)</code></dt>
 <dd>Returns the certificate number at the specified <code>index</code> of the given owner.  Allows for enumeration of all certificates held by an address.</dd>
@@ -115,19 +127,25 @@ If you need to claim your tokens and need a small amount of MATIC, please send y
 <dd>Returns the total number of valid certificates issued by this contract (this number may increase but will never be higher than the <code>cap</code>.</dd>
 </dl>
 </li>
-<li><a href="https://eips.ethereum.org/EIPS/eip-165">ERC-165</a> (required by ERC-721)
+<li><a href="https://eips.ethereum.org/EIPS/eip-165">ERC-165</a> (required by ERC-721) standard functions
 <dl>
 <dt><code>supportsInterface(bytes4 interfaceId) returns (bool)</code></dt>
 <dd>Returns true if this contract supports the interface specified by <code>interfaceId</code> (as defined in ERC-165).  Otherwise, returns false.</dd>
 </dl>
 </li>
-<li><a href="https://eips.ethereum.org/EIPS/eip-173">ERC-173</a> (<b>TBD</b> conformance to this may or may not be required by this contract; if not, all related functions will be removed)
+<li><a href="https://eips.ethereum.org/EIPS/eip-173">ERC-173</a> (<b>TBD</b> conformance to this may or may not be required by this contract; if not, all related functions will be removed) standard functions
 <dl>
 <dt><code>owner() returns (address)</code></dt>
 <dd>Returns the address that owns the Silver Mare Coin certificate contract.</dd>
 
 <dt><code>transferOwnership(address newOwner)</code></dt>
 <dd>Sets the owner of this contract to the address specified by <code>newOwner</code>.  Only callable by the address specified in <code>owner()</code></dd>
+</dl>
+</li>
+<li><a href="https://eips.ethereum.org/EIPS/eip-2771">ERC-2771</a> standard functions
+<dl>
+<dt><code>setTrustedForwarder(address forwarder)</code></dt>
+<dd>Only callable by the owner of the contract; sets the trusted forwarder contract to <code>forwarder</code>.</dd>
 </dl>
 </li>
 </ul>
@@ -167,9 +185,6 @@ If you need to claim your tokens and need a small amount of MATIC, please send y
 <ul>
 <li>Custom errors
 <dl>
-<dt><code>CallerIsNotOwner(address caller, address owner)</code></dt>
-<dd>Thrown when an owner-protected function is called by the non-owner address <code>caller</code> that is not the <code>owner</code> address.</dd>
-
 <dt><code>CertificateAlreadyClaimed(uint16 number)</code></dt>
 <dd>Thrown when attempting to claim certificate with number <code>number</code> that has already been claimed.</dd>
 
