@@ -1,7 +1,7 @@
-import { TokenGenericCollection } from "./TokenGenericCollection.mjs";
-import { TokenImage } from "./TokenImage.mjs";
+const TokenGenericCollection = require("./TokenGenericCollection.js");
+const TokenImage = require("./TokenImage.js");
 
-export class TokenImageCollection extends TokenGenericCollection {
+module.exports = class TokenImageCollection extends TokenGenericCollection {
 	static #FILE_EXTENSION = "svg";
 	static #MIME_TYPE = "image/svg+xml";
 

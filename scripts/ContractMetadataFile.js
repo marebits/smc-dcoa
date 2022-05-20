@@ -1,17 +1,17 @@
-import SECRETS from "../secrets.json" assert { type: "json" };
-import { ContractMetadata } from "./ContractMetadata.mjs";
-import * as FileSystem from "fs/promises";
-import { File, NFTStorage } from "nft.storage";
-import * as Path from "path";
-import * as Process from "process";
-import { URL } from "url";
+const SECRETS = require("../secrets.json");
+const ContractMetadata = require("./ContractMetadata.js");
+const FileSystem = require("fs/promises");
+const { File, NFTStorage } = require("nft.storage");
+const Path = require("path");
+const Process = require("process");
+const { URL } = require("url");
 
 const IMAGE_FILE = "./dcoa.svg";
 const FILE_NAME_PREFIX = "SilverMareCoinDCoA";
 const IMAGE = globalThis.Object.freeze({ DOMAIN: "Image", FILE_EXTENSION: "svg", MIME_TYPE: "image/svg+xml" });
 const METADATA = globalThis.Object.freeze({ DOMAIN: "Metadata", FILE_EXTENSION: "json", MIME_TYPE: "application/json" });
 
-export class ContractMetadataFile {
+module.exports = class ContractMetadataFile {
 	#_nftClient;
 	#cap;
 	#image;

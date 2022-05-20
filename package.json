@@ -6,12 +6,13 @@
 	"scripts": {
 		"build": "bin/build",
 		"compile": "npx truffle compile",
-		"console-ganache": "export NODE_OPTIONS=--openssl-legacy-provider && npx truffle console --network ganache",
+		"console-ganache": "npx truffle console --network ganache",
 		"dashboard": "npx truffle dashboard",
 		"deploy": "npx truffle migrate --network development --reset",
 		"deploy-dashboard": "npx truffle migrate --network dashboard --reset",
 		"deploy-ganache": "npx truffle migrate --network ganache --reset",
-		"develop": "NODE_OPTIONS=--openssl-legacy-provider && npx truffle develop", 
+		"develop": "npx truffle develop",
+		"ganache": "npx ganache --chain.networkId=1337 --server.port=7545 --wallet.deterministic=true",
 		"generate-claim-codes": "npx truffle exec scripts/generateClaimCodes.js --network polygon",
 		"github": "git commit -a && git push origin master",
 		"svg": "npx svgo -i dcoa.svg -o dcoa.min.svg -p 1 --multipass"
@@ -30,8 +31,9 @@
 		"@opengsn/contracts": "^2.2.6",
 		"@openzeppelin/contracts": "^4.5.0",
 		"@truffle/hdwallet-provider": "^2.0.4",
+		"ganache": "^7.1.0",
 		"nft.storage": "^6.2.0",
 		"svgo": "^2.8.0",
-		"truffle": "^5.5.12"
+		"truffle": "^5.5.14"
 	}
 }

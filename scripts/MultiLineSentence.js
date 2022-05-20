@@ -1,4 +1,4 @@
-export class MultiLineSentence {
+module.exports = class MultiLineSentence {
 	static DEFAULT_LINE_LENGTH = 100;
 	#lineLength;
 	#sentence;

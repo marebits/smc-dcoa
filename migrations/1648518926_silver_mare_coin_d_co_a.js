@@ -1,5 +1,6 @@
-const Files = require("../scripts/Files.js");
+const ContractMetadataFile = require("../scripts/ContractMetadataFile.js");
 const SIGNERS = require("../scripts/signers.js");
+const TokenMetadataFiles = require("../scripts/TokenMetadataFiles.js");
 const utils = require("../scripts/utils.js");
 
 const SilverMareCoinDCoA = artifacts.require("SilverMareCoinDCoA");
@@ -11,7 +12,7 @@ const FLOOR = 1; // if this changes here, change it in the SilverMareCoinDCoA.so
 const SYMBOL = "🐎🪙📜 A‍g M‍A‍R‍E 2‍0‍2‍2";
 
 async function deploySilverMareCoinDCoA(deployer, network) {
-	const [networkName, { ContractMetadataFile, TokenMetadataFiles }] = await globalThis.Promise.all([utils.getNetworkName({ network }), Files.loadModules()]);
+	const networkName = await utils.getNetworkName();
 	const CAP = (networkName === "development") ? DEV_CAP : PROD_CAP;
 	const contractMetadataFile = new ContractMetadataFile(CAP, SYMBOL);
 	const tokenMetadataFiles = new TokenMetadataFiles(FLOOR, CAP);

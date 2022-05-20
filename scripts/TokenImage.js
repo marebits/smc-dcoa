@@ -1,5 +1,5 @@
-import { MultiLineSentence } from "./MultiLineSentence.mjs";
-import { prepareTemplate, processTemplate } from "./utils.js";
+const MultiLineSentence = require("./MultiLineSentence.js");
+const { prepareTemplate, processTemplate } = require("./utils.js");
 
 const CAP_SYMBOL = globalThis.Symbol("cap");
 const NUMBER_SYMBOL = globalThis.Symbol("number");
@@ -21,7 +21,7 @@ const STYLE = `*{overflow:visible}text{cursor:default;dominant-baseline:middle;f
 
 const IMAGE = `<defs><path id="edgeText" d="M112 420a238 238 1 0 1 476 1 238 238 1 0 1-476 1" /></defs><circle cx="50%" cy="60%" r="38%" fill="#e1e1e1" stroke="#b5b5b5" stroke-width="1%" /><text y="50%"><textPath href="#edgeText" lengthAdjust="spacingAndGlyphs" spacing="auto" textLength="2990.8">MARES &#x1f340;︎ MARES &#x1f340;︎ MARES &#x1f340;︎ MARES &#x1f340;︎ MARES &#x1f340;︎ MARES &#x1f340;︎ MARES &#x1f340;︎ MARES &#x1f340;︎ MARES &#x1f340;︎ MARES &#x1f340;︎ MARES &#x1f340;︎ MARES &#x1f340;︎ MARES &#x1f340;︎ MARES &#x1f340;︎ MARES &#x1f340;︎ MARES &#x1f340;︎ MARES &#x1f340;︎ MARES &#x1f340;︎ MARES &#x1f340;︎ MARES &#x1f340;︎ MARES &#x1f340;︎ MARES &#x1f340;︎ MARES &#x1f340;︎ MARES &#x1f340;︎ MARES &#x1f340;︎ MARES &#x1f340;︎ MARES &#x1f340;︎ MARES &#x1f340;︎ MARES &#x1f340;︎ MARES &#x1f340;︎ MARES &#x1f340;︎ MARES &#x1f340;︎ MARES &#x1f340;︎ MARES &#x1f340;︎ MARES &#x1f340;︎ MARES &#x1f340;︎</textPath></text><circle cx="50%" cy="60%" r="30%" fill="#e1e1e1" stroke="#b5b5b5" stroke-width="2%" /><text x="50%" y="60%" class="h1">PONY GOES HERE</text>`;
 
-export class TokenImage {
+module.exports = class TokenImage {
 	#cap;
 	#number;
 

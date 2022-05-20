@@ -1,5 +1,5 @@
-import { TokenMetadata } from "./TokenMetadata.mjs";
-import { prepareTemplate, processTemplate } from "./utils.js";
+const TokenMetadata = require("./TokenMetadata.js");
+const { prepareTemplate, processTemplate } = require("./utils.js");
 
 const CAP_SYMBOL = globalThis.Symbol("cap");
 // wording
@@ -9,7 +9,7 @@ const EXTERNAL_LINK = "https://4channel.org/mlp/";
 const SELLER_FEE_BASIS_POINTS = 0;
 const FEE_RECIPIENT = "0x0000000000000000000000000000000000000000";
 
-export class ContractMetadata {
+module.exports = class ContractMetadata {
 	#cap;
 	#image;
 	#symbol;

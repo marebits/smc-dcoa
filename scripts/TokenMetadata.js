@@ -1,4 +1,4 @@
-import { prepareTemplate, processTemplate } from "./utils.js";
+const { prepareTemplate, processTemplate } = require("./utils.js");
 
 const CAP_SYMBOL = globalThis.Symbol("cap");
 const NUMBER_SYMBOL = globalThis.Symbol("number");
@@ -35,7 +35,7 @@ const REVERSE_LETTERING = "MARES 🍀︎ \nEQUIFUTUTORES \n1 OZ FINE SILVER";
 const EDGE_DESCRIPTION = "Engraved with repeating Latin motto separated by 🍀︎.";
 const EDGE_LETTERING = "EQUITATUS 🍀︎ NUMQUAM 🍀︎ FINIT 🍀︎";
 
-export class TokenMetadata {
+module.exports = class TokenMetadata {
 	static get COIN_NAME() { return COIN_NAME; }
 	static get TRAITS() { return TRAITS; }
 

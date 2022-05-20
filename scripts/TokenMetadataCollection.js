@@ -1,7 +1,7 @@
-import { TokenGenericCollection } from "./TokenGenericCollection.mjs";
-import { TokenMetadata } from "./TokenMetadata.mjs";
+const TokenGenericCollection = require("./TokenGenericCollection.js");
+const TokenMetadata = require("./TokenMetadata.js");
 
-export class TokenMetadataCollection extends TokenGenericCollection {
+module.exports = class TokenMetadataCollection extends TokenGenericCollection {
 	static #FILE_EXTENSION = "json";
 	static #MIME_TYPE = "application/json";
 

@@ -1,6 +1,6 @@
-import { FileGeneratorCollection } from "./FileGeneratorCollection.mjs";
+const FileGeneratorCollection = require("./FileGeneratorCollection.js");
 
-export class TokenGenericCollection extends FileGeneratorCollection {
+module.exports = class TokenGenericCollection extends FileGeneratorCollection {
 	#cap;
 	#floor;
 

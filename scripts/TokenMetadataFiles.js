@@ -1,11 +1,11 @@
-import SECRETS from "../secrets.json" assert { type: "json" };
-import { TokenImageCollection } from "./TokenImageCollection.mjs";
-import { TokenMetadataCollection } from "./TokenMetadataCollection.mjs";
-import { File, NFTStorage } from "nft.storage";
-import * as Path from "path";
-import * as Process from "process";
+const SECRETS = require("../secrets.json");
+const TokenImageCollection = require("./TokenImageCollection.js");
+const TokenMetadataCollection = require("./TokenMetadataCollection.js");
+const { File, NFTStorage } = require("nft.storage");
+const Path = require("path");
+const Process = require("process");
 
-export class TokenMetadataFiles {
+module.exports = class TokenMetadataFiles {
 	static #DIRECTORY = "./token-metadata";
 	static #METADATA_SUBDIR = "json";
 	static #SVG_SUBDIR = "svg";

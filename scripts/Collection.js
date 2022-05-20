@@ -1,4 +1,4 @@
-import { CollectionItem } from "./CollectionItem.mjs";
+const CollectionItem = require("./CollectionItem.js");
 
 const COLLECTIONS = new globalThis.WeakMap();
 
@@ -142,4 +142,4 @@ class PromiseCollection extends Collection {
 	}
 }
 
-export { Collection, PromiseCollection };
+module.exports = { Collection, PromiseCollection };

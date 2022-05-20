@@ -1,10 +1,10 @@
-import { Collection } from "./Collection.mjs";
-import { constants as FILE_SYSTEM_CONSTANTS } from "fs";
-import * as FileSystem from "fs/promises";
-import * as Path from "path";
-import * as Process from "process";
+const { Collection } = require("./Collection.js");
+const { FILE_SYSTEM_CONSTANTS: constants } = require("fs");
+const FileSystem = require("fs/promises");
+const Path = require("path");
+const Process = require("process");
 
-export class FileGeneratorCollection extends Collection {
+module.exports = class FileGeneratorCollection extends Collection {
 	#directory;
 	#fileExtension;
 

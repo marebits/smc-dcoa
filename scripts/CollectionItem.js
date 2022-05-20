@@ -1,4 +1,4 @@
-export class CollectionItem {
+module.exports = class CollectionItem {
 	#key;
 	#value;
 
