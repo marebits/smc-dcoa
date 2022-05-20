@@ -1,8 +1,10 @@
 const CHAIN_IDS = { 1337: "ganache", 80001: "mumbai", 137: "polygon" };
 
-async function getNetworkName(config) {
+function asyncDelay(delayTimeMs) { return new Promise(resolve => setTimeout(resolve, delayTimeMs)); }
+
+async function getNetworkName(config, web3 = globalThis.web3) {
 	if (typeof(config) === "undefined" || config.network === "dashboard") {
-		const thisWeb3 = (typeof globalThis.web3 === "undefined") ? artifacts.require("Migrations").interfaceAdapter.web3 : web3;
+		const thisWeb3 = (typeof web3 === "undefined") ? artifacts.require("Migrations").interfaceAdapter.web3 : web3;
 		const chainId = await thisWeb3.eth.getChainId();
 
 		return CHAIN_IDS[chainId] ?? "development";
@@ -22,4 +24,4 @@ function prepareTemplate(strings, ...args) {
 
 function processTemplate(template, replacements) { return template.map(item => (typeof replacements[item] === "undefined") ? item.toString() : replacements[item]).join(""); }
 
-module.exports = { getNetworkName, prepareTemplate, processTemplate };
+module.exports = { asyncDelay, getNetworkName, prepareTemplate, processTemplate };

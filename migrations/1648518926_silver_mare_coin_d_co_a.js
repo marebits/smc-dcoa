@@ -12,7 +12,7 @@ const FLOOR = 1; // if this changes here, change it in the SilverMareCoinDCoA.so
 const SYMBOL = "🐎🪙📜 A‍g M‍A‍R‍E 2‍0‍2‍2";
 
 async function deploySilverMareCoinDCoA(deployer, network) {
-	const networkName = await utils.getNetworkName();
+	const networkName = await utils.getNetworkName({ network });
 	const CAP = (networkName === "development") ? DEV_CAP : PROD_CAP;
 	const contractMetadataFile = new ContractMetadataFile(CAP, SYMBOL);
 	const tokenMetadataFiles = new TokenMetadataFiles(FLOOR, CAP);
